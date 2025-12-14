@@ -31,7 +31,7 @@ Process long text efficiently by automatically splitting it into chunks and comb
 ## Example Request
 
 ```bash
-curl -X POST https://api.gistmag.com/tts/batch \
+curl -X POST https://api.gistmag.co.uk/tts/batch \
   -H "Content-Type: application/json" \
   -d '{
     "text": "This is a very long text that will be automatically split into chunks...",
@@ -65,7 +65,7 @@ The response is a single MP3 audio file containing the complete text with natura
 import requests
 
 response = requests.post(
-    "https://api.gistmag.com/tts/batch",
+    "https://api.gistmag.co.uk/tts/batch",
     json={
         "text": "Very long text here...",
         "language": "en",

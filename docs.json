@@ -66,13 +66,8 @@
       "anchors": [
         {
           "anchor": "Dashboard",
-          "href": "https://gistmag.com/dashboard",
+          "href": "https://gistmag.co.uk/dashboard",
           "icon": "chart-line"
-        },
-        {
-          "anchor": "GitHub",
-          "href": "https://github.com/olastephen/gistmag_api",
-          "icon": "github"
         }
       ]
     }
@@ -85,13 +80,13 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:support@gistmag.com"
+        "href": "mailto:support@gistmag.co.uk"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Get API Key",
-      "href": "https://gistmag.com/dashboard/api-key"
+      "href": "https://gistmag.co.uk/dashboard/api-key"
     }
   },
   "contextual": {
@@ -106,9 +101,5 @@
       "vscode"
     ]
   },
-  "footer": {
-    "socials": {
-      "github": "https://github.com/olastephen"
-    }
-  }
+  "footer": {}
 }

@@ -45,7 +45,7 @@ This endpoint uses `multipart/form-data` for file uploads.
 ## Example Request
 
 ```bash
-curl -X POST https://api.gistmag.com/tts/with-music \
+curl -X POST https://api.gistmag.co.uk/tts/with-music \
   -F "text=This is a narration with background music." \
   -F "music=@background.mp3" \
   -F "language=en" \
@@ -83,7 +83,7 @@ with open("background.mp3", "rb") as f:
     }
     
     response = requests.post(
-        "https://api.gistmag.com/tts/with-music",
+        "https://api.gistmag.co.uk/tts/with-music",
         files=files,
         data=data
     )

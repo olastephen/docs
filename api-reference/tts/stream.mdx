@@ -31,7 +31,7 @@ Stream audio in real-time as it's being generated. This is ideal for live readin
 ## Example Request
 
 ```bash
-curl -X POST https://api.gistmag.com/tts/stream \
+curl -X POST https://api.gistmag.co.uk/tts/stream \
   -H "Content-Type: application/json" \
   -d '{
     "text": "This is a long text that will be streamed in chunks...",
@@ -65,7 +65,7 @@ The response is a streaming MP3 audio file. Audio chunks are sent as they're gen
 import requests
 
 response = requests.post(
-    "https://api.gistmag.com/tts/stream",
+        "https://api.gistmag.co.uk/tts/stream",
     json={
         "text": "This is a long text...",
         "language": "en",
@@ -83,7 +83,7 @@ with open("stream.mp3", "wb") as f:
 ### JavaScript
 
 ```javascript
-const response = await fetch('https://api.gistmag.com/tts/stream', {
+const response = await fetch('https://api.gistmag.co.uk/tts/stream', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',

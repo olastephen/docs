@@ -5,7 +5,7 @@ description: "How to authenticate with the GistMag API"
 
 ## API Keys
 
-All API requests require an API key for authentication. You can create and manage API keys in your [Dashboard](https://gistmag.com/dashboard/api-key).
+All API requests require an API key for authentication. You can create and manage API keys in your [Dashboard](https://gistmag.co.uk/dashboard/api-key).
 
 ## Using Your API Key
 
@@ -14,7 +14,7 @@ All API requests require an API key for authentication. You can create and manag
 Include your API key in the request body:
 
 ```bash
-curl -X POST https://api.gistmag.com/generate \
+curl -X POST https://api.gistmag.co.uk/generate \
   -H "Content-Type: application/json" \
   -d '{
     "api_key": "your_api_key_here",
@@ -27,7 +27,7 @@ curl -X POST https://api.gistmag.com/generate \
 For GET requests, you can include the API key as a query parameter:
 
 ```bash
-curl "https://api.gistmag.com/usage?api_key=your_api_key_here"
+curl "https://api.gistmag.co.uk/usage?api_key=your_api_key_here"
 ```
 
 ## Multiple API Keys
@@ -48,7 +48,7 @@ You can create multiple API keys for different projects or environments. Each ke
 
 ```bash
 export GISTMAG_API_KEY="your_api_key_here"
-curl -X POST https://api.gistmag.com/generate \
+curl -X POST https://api.gistmag.co.uk/generate \
   -H "Content-Type: application/json" \
   -d "{
     \"api_key\": \"$GISTMAG_API_KEY\",
@@ -69,7 +69,7 @@ Regularly rotate your API keys for security:
 You can verify your API key is valid using the verify endpoint:
 
 ```bash
-curl -X POST https://api.gistmag.com/verify-key \
+curl -X POST https://api.gistmag.co.uk/verify-key \
   -H "Content-Type: application/json" \
   -d '{
     "api_key": "your_api_key_here"

@@ -5,13 +5,13 @@ description: "Get started with the GistMag API in 5 minutes"
 
 ## Prerequisites
 
-- A GistMag account ([Sign up here](https://gistmag.com/dashboard))
-- An API key ([Get one here](https://gistmag.com/dashboard/api-key))
+- A GistMag account ([Sign up here](https://gistmag.co.uk/dashboard))
+- An API key ([Get one here](https://gistmag.co.uk/dashboard/api-key))
 - cURL or your favorite HTTP client
 
 ## Step 1: Get Your API Key
 
-1. Sign in to your [GistMag Dashboard](https://gistmag.com/dashboard)
+1. Sign in to your [GistMag Dashboard](https://gistmag.co.uk/dashboard)
 2. Navigate to the API Keys section
 3. Create a new API key
 4. Copy and securely store your API key
@@ -25,7 +25,7 @@ description: "Get started with the GistMag API in 5 minutes"
 Generate alt text for an image with a single API call:
 
 ```bash
-curl -X POST https://api.gistmag.com/generate \
+curl -X POST https://api.gistmag.co.uk/generate \
   -H "Content-Type: application/json" \
   -d '{
     "image_url": "https://example.com/image.jpg",
@@ -43,7 +43,7 @@ curl -X POST https://api.gistmag.com/generate \
 Convert text to speech:
 
 ```bash
-curl -X POST https://api.gistmag.com/tts \
+curl -X POST https://api.gistmag.co.uk/tts \
   -H "Content-Type: application/json" \
   -d '{
     "text": "Hello, this is a test of the text-to-speech API.",

@@ -33,7 +33,7 @@ This endpoint uses `multipart/form-data` for file uploads.
 ## Example Request
 
 ```bash
-curl -X POST https://api.gistmag.com/tts/voice-clone \
+curl -X POST https://api.gistmag.co.uk/tts/voice-clone \
   -F "reference_audio=@reference.wav" \
   -F "text=Hello, this is a test using a cloned voice." \
   -F "language=en" \
@@ -76,7 +76,7 @@ with open("reference.wav", "rb") as f:
     }
     
     response = requests.post(
-        "https://api.gistmag.com/tts/voice-clone",
+        "https://api.gistmag.co.uk/tts/voice-clone",
         files=files,
         data=data
     )
@@ -94,7 +94,7 @@ formData.append('text', 'Hello, this is a test.');
 formData.append('language', 'en');
 formData.append('api_key', 'your_api_key_here');
 
-const response = await fetch('https://api.gistmag.com/tts/voice-clone', {
+const response = await fetch('https://api.gistmag.co.uk/tts/voice-clone', {
   method: 'POST',
   body: formData
 });

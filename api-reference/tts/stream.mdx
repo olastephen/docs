@@ -1,0 +1,116 @@
+---
+title: "Streaming Text-to-Speech"
+description: "Stream audio in real-time as it's generated"
+api: "POST /tts/stream"
+---
+
+## Overview
+
+Stream audio in real-time as it's being generated. This is ideal for live reading applications where you want to start playing audio before the entire text is processed.
+
+<Endpoint method="post" url="/tts/stream" />
+
+## Request Body
+
+<ParamField body="text" type="string" required>
+  The text to convert to speech
+</ParamField>
+
+<ParamField body="language" type="string" default="en">
+  Language code (e.g., "en", "es", "fr")
+</ParamField>
+
+<ParamField body="chunk_size" type="number" default="200">
+  Number of characters per chunk. Smaller chunks provide faster initial response but more network overhead.
+</ParamField>
+
+<ParamField body="api_key" type="string" required>
+  Your GistMag API key
+</ParamField>
+
+## Example Request
+
+```bash
+curl -X POST https://api.gistmag.com/tts/stream \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "This is a long text that will be streamed in chunks...",
+    "language": "en",
+    "chunk_size": 200,
+    "api_key": "your_api_key_here"
+  }' \
+  --output stream.mp3
+```
+
+## Response
+
+The response is a streaming MP3 audio file. Audio chunks are sent as they're generated.
+
+**Content-Type**: `audio/mpeg`
+
+**Content-Disposition**: `inline`
+
+## How It Works
+
+1. Text is automatically split into chunks at sentence boundaries
+2. Each chunk is processed and converted to speech
+3. Audio chunks are streamed immediately as MP3
+4. Client can start playing audio while remaining chunks are being generated
+
+## Example Usage
+
+### Python
+
+```python
+import requests
+
+response = requests.post(
+    "https://api.gistmag.com/tts/stream",
+    json={
+        "text": "This is a long text...",
+        "language": "en",
+        "chunk_size": 200,
+        "api_key": "your_api_key_here"
+    },
+    stream=True
+)
+
+with open("stream.mp3", "wb") as f:
+    for chunk in response.iter_content(chunk_size=8192):
+        f.write(chunk)
+```
+
+### JavaScript
+
+```javascript
+const response = await fetch('https://api.gistmag.com/tts/stream', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    text: 'This is a long text...',
+    language: 'en',
+    chunk_size: 200,
+    api_key: 'your_api_key_here'
+  })
+});
+
+const reader = response.body.getReader();
+const chunks = [];
+
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+  chunks.push(value);
+}
+
+// Combine chunks and play
+const audioBlob = new Blob(chunks, { type: 'audio/mpeg' });
+const audioUrl = URL.createObjectURL(audioBlob);
+```
+
+<Info>
+  Streaming is ideal for long-form content where you want to start playback immediately rather than waiting for the entire audio to be generated.
+</Info>
+

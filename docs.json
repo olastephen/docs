@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "GistMag API",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
@@ -17,52 +17,46 @@
             "group": "Getting started",
             "pages": [
               "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "quickstart"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "API Reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Overview",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/introduction",
+              "api-reference/authentication"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Alt Text Generation",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/alt-text/generate",
+              "api-reference/alt-text/atg-generate",
+              "api-reference/alt-text/batch"
+            ]
+          },
+          {
+            "group": "Text-to-Speech",
+            "pages": [
+              "api-reference/tts/introduction",
+              "api-reference/tts/basic",
+              "api-reference/tts/stream",
+              "api-reference/tts/voice-clone",
+              "api-reference/tts/batch",
+              "api-reference/tts/with-music"
+            ]
+          },
+          {
+            "group": "Management",
+            "pages": [
+              "api-reference/management/usage",
+              "api-reference/management/verify-key",
+              "api-reference/management/record-usage"
             ]
           }
         ]
@@ -71,14 +65,14 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "Dashboard",
+          "href": "https://gistmag.com/dashboard",
+          "icon": "chart-line"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "GitHub",
+          "href": "https://github.com/olastephen/gistmag_api",
+          "icon": "github"
         }
       ]
     }
@@ -91,32 +85,30 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@gistmag.com"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Get API Key",
+      "href": "https://gistmag.com/dashboard/api-key"
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/olastephen"
     }
   }
 }

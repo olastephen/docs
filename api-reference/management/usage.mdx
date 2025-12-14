@@ -1,0 +1,93 @@
+---
+title: "Get Usage Statistics"
+description: "Retrieve your API usage statistics"
+api: "GET /usage or POST /usage"
+---
+
+## Overview
+
+Get detailed usage statistics for your API account, including request counts, credits used, and usage by time period.
+
+<Endpoint method="get" url="/usage" />
+<Endpoint method="post" url="/usage" />
+
+## Request
+
+### GET Request
+
+```bash
+curl "https://api.gistmag.com/usage?api_key=your_api_key_here"
+```
+
+### POST Request
+
+```bash
+curl -X POST https://api.gistmag.com/usage \
+  -H "Content-Type: application/json" \
+  -d '{
+    "api_key": "your_api_key_here"
+  }'
+```
+
+## Request Parameters
+
+<ParamField query="api_key" body="api_key" type="string" required>
+  Your GistMag API key
+</ParamField>
+
+## Response
+
+<ResponseField name="total_requests" type="number">
+  Total number of API requests made
+</ResponseField>
+
+<ResponseField name="total_credits_used" type="number">
+  Total credits consumed
+</ResponseField>
+
+<ResponseField name="requests_this_month" type="number">
+  Number of requests made this month
+</ResponseField>
+
+<ResponseField name="credits_used_this_month" type="number">
+  Credits used this month
+</ResponseField>
+
+<ResponseField name="subscription_tier" type="string">
+  Your current subscription tier (free, pro, enterprise)
+</ResponseField>
+
+<ResponseField name="credits_remaining" type="number">
+  Credits remaining in your account
+</ResponseField>
+
+<ResponseField name="usage_by_endpoint" type="object">
+  Breakdown of usage by endpoint
+</ResponseField>
+
+### Example Response
+
+```json
+{
+  "total_requests": 1523,
+  "total_credits_used": 1523,
+  "requests_this_month": 456,
+  "credits_used_this_month": 456,
+  "subscription_tier": "pro",
+  "credits_remaining": 9544,
+  "usage_by_endpoint": {
+    "/generate": 1200,
+    "/batch": 200,
+    "/tts": 123
+  }
+}
+```
+
+## Per-API-Key Usage
+
+If you have multiple API keys, you can track usage per key. Each key's usage is tracked independently.
+
+<Info>
+  Usage statistics are updated in real-time and reflect all requests made with your API keys.
+</Info>
+

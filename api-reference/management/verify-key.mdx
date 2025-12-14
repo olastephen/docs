@@ -1,0 +1,71 @@
+---
+title: "Verify API Key"
+description: "Verify that an API key is valid"
+api: "POST /verify-key"
+---
+
+## Overview
+
+Verify that an API key is valid and get information about the associated account.
+
+<Endpoint method="post" url="/verify-key" />
+
+## Request Body
+
+<ParamField body="api_key" type="string" required>
+  The API key to verify
+</ParamField>
+
+## Example Request
+
+```bash
+curl -X POST https://api.gistmag.com/verify-key \
+  -H "Content-Type: application/json" \
+  -d '{
+    "api_key": "your_api_key_here"
+  }'
+```
+
+## Response
+
+<ResponseField name="valid" type="boolean">
+  Whether the API key is valid
+</ResponseField>
+
+<ResponseField name="subscription_tier" type="string">
+  The subscription tier associated with this API key (free, pro, enterprise)
+</ResponseField>
+
+<ResponseField name="user_id" type="string">
+  The user ID associated with this API key
+</ResponseField>
+
+### Example Response (Valid Key)
+
+```json
+{
+  "valid": true,
+  "subscription_tier": "pro",
+  "user_id": "user_123456"
+}
+```
+
+### Example Response (Invalid Key)
+
+```json
+{
+  "valid": false,
+  "error": "Invalid API key"
+}
+```
+
+## Use Cases
+
+- Validate API keys before making requests
+- Check subscription tier programmatically
+- Verify API key status in your application
+
+<Info>
+  This endpoint does not consume credits and can be called freely to verify API keys.
+</Info>
+

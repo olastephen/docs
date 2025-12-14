@@ -1,0 +1,88 @@
+---
+title: "Batch Text-to-Speech"
+description: "Process long text efficiently with automatic chunking"
+api: "POST /tts/batch"
+---
+
+## Overview
+
+Process long text efficiently by automatically splitting it into chunks and combining the audio with pauses between segments. Ideal for long-form content like articles, books, or documentation.
+
+<Endpoint method="post" url="/tts/batch" />
+
+## Request Body
+
+<ParamField body="text" type="string" required>
+  The text to convert to speech. Can be very long (10,000+ characters).
+</ParamField>
+
+<ParamField body="language" type="string" default="en">
+  Language code (e.g., "en", "es", "fr")
+</ParamField>
+
+<ParamField body="pause_duration" type="number" default="800">
+  Pause duration in milliseconds between text segments
+</ParamField>
+
+<ParamField body="api_key" type="string" required>
+  Your GistMag API key
+</ParamField>
+
+## Example Request
+
+```bash
+curl -X POST https://api.gistmag.com/tts/batch \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "This is a very long text that will be automatically split into chunks...",
+    "language": "en",
+    "pause_duration": 800,
+    "api_key": "your_api_key_here"
+  }' \
+  --output output.mp3
+```
+
+## How It Works
+
+1. Text is automatically split at sentence boundaries
+2. Each segment is processed independently
+3. Audio segments are combined with pauses between them
+4. Final audio is normalized and exported as MP3
+
+## Response
+
+The response is a single MP3 audio file containing the complete text with natural pauses.
+
+**Content-Type**: `audio/mpeg`
+
+**Content-Disposition**: `attachment; filename=output.mp3`
+
+## Example Usage
+
+### Python
+
+```python
+import requests
+
+response = requests.post(
+    "https://api.gistmag.com/tts/batch",
+    json={
+        "text": "Very long text here...",
+        "language": "en",
+        "pause_duration": 800,
+        "api_key": "your_api_key_here"
+    }
+)
+
+with open("output.mp3", "wb") as f:
+    f.write(response.content)
+```
+
+## Voice Cloning with Batch
+
+For batch processing with voice cloning, use the [`/tts/batch/voice-clone`](/api-reference/tts/batch-voice-clone) endpoint.
+
+<Info>
+  Batch processing is more efficient for long text as it handles chunking and combining automatically, ensuring natural pauses between sentences.
+</Info>
+

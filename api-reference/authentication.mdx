@@ -1,0 +1,85 @@
+---
+title: "Authentication"
+description: "How to authenticate with the GistMag API"
+---
+
+## API Keys
+
+All API requests require an API key for authentication. You can create and manage API keys in your [Dashboard](https://gistmag.com/dashboard/api-key).
+
+## Using Your API Key
+
+### Method 1: Request Body (Recommended)
+
+Include your API key in the request body:
+
+```bash
+curl -X POST https://api.gistmag.com/generate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "api_key": "your_api_key_here",
+    "image_url": "https://example.com/image.jpg"
+  }'
+```
+
+### Method 2: Query Parameter
+
+For GET requests, you can include the API key as a query parameter:
+
+```bash
+curl "https://api.gistmag.com/usage?api_key=your_api_key_here"
+```
+
+## Multiple API Keys
+
+You can create multiple API keys for different projects or environments. Each key has its own usage tracking and can be managed independently.
+
+<Info>
+  API keys are scoped to your account. All keys have access to the same features based on your subscription tier.
+</Info>
+
+## Security Best Practices
+
+<Warning>
+  **Never commit API keys to version control.** Use environment variables or secure secret management.
+</Warning>
+
+### Using Environment Variables
+
+```bash
+export GISTMAG_API_KEY="your_api_key_here"
+curl -X POST https://api.gistmag.com/generate \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"api_key\": \"$GISTMAG_API_KEY\",
+    \"image_url\": \"https://example.com/image.jpg\"
+  }"
+```
+
+### Rotating API Keys
+
+Regularly rotate your API keys for security:
+
+1. Create a new API key in your dashboard
+2. Update your applications to use the new key
+3. Delete the old key once migration is complete
+
+## Verifying Your API Key
+
+You can verify your API key is valid using the verify endpoint:
+
+```bash
+curl -X POST https://api.gistmag.com/verify-key \
+  -H "Content-Type: application/json" \
+  -d '{
+    "api_key": "your_api_key_here"
+  }'
+```
+
+<ResponseField name="valid" type="boolean">
+  Whether the API key is valid
+</ResponseField>
+<ResponseField name="subscription_tier" type="string">
+  Your current subscription tier (free, pro, enterprise)
+</ResponseField>
+

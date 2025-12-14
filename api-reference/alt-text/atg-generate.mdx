@@ -1,0 +1,68 @@
+---
+title: "Generate Alt Text (ATG)"
+description: "Generate alt text using the ATG endpoint"
+api: "POST /atg/generate"
+---
+
+## Overview
+
+Generate alt text for a single image using the ATG endpoint. This endpoint provides the same functionality as `/generate` but uses a different route for compatibility with existing integrations.
+
+<Endpoint method="post" url="/atg/generate" />
+
+## Request Body
+
+<ParamField body="image_url" type="string" required>
+  The URL of the image to generate alt text for
+</ParamField>
+
+<ParamField body="api_key" type="string" required>
+  Your GistMag API key
+</ParamField>
+
+<ParamField body="mode" type="string" default="short">
+  The length of alt text to generate. Options: `short`, `medium`, `detailed`
+</ParamField>
+
+## Example Request
+
+```bash
+curl -X POST https://api.gistmag.com/atg/generate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "image_url": "https://example.com/image.jpg",
+    "api_key": "your_api_key_here",
+    "mode": "short"
+  }'
+```
+
+## Response
+
+The response format is identical to the `/generate` endpoint.
+
+<ResponseField name="alt_text" type="string">
+  The generated alt text description
+</ResponseField>
+
+<ResponseField name="confidence" type="number">
+  Confidence score (0-1) of the generated alt text
+</ResponseField>
+
+<ResponseField name="credits_used" type="number">
+  Number of credits consumed for this request
+</ResponseField>
+
+### Example Response
+
+```json
+{
+  "alt_text": "A beautiful sunset over the ocean with orange and pink hues",
+  "confidence": 0.95,
+  "credits_used": 1
+}
+```
+
+<Note>
+  This endpoint is maintained for backward compatibility. New integrations should use `/generate`.
+</Note>
+

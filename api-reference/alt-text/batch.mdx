@@ -1,0 +1,119 @@
+---
+title: "Batch Generate Alt Text"
+description: "Generate alt text for multiple images in a single request"
+api: "POST /batch"
+---
+
+## Overview
+
+Process multiple images efficiently in a single API call. This is ideal for bulk processing or when you need to generate alt text for multiple images at once.
+
+<Endpoint method="post" url="/batch" />
+
+## Request Body
+
+<ParamField body="images" type="array" required>
+  Array of image objects to process
+</ParamField>
+
+<ParamField body="images[].url" type="string" required>
+  The URL of the image
+</ParamField>
+
+<ParamField body="images[].mode" type="string" default="short">
+  The length of alt text for this specific image. Options: `short`, `medium`, `detailed`
+</ParamField>
+
+<ParamField body="api_key" type="string" required>
+  Your GistMag API key
+</ParamField>
+
+## Example Request
+
+```bash
+curl -X POST https://api.gistmag.com/batch \
+  -H "Content-Type: application/json" \
+  -d '{
+    "api_key": "your_api_key_here",
+    "images": [
+      {
+        "url": "https://example.com/image1.jpg",
+        "mode": "short"
+      },
+      {
+        "url": "https://example.com/image2.jpg",
+        "mode": "detailed"
+      },
+      {
+        "url": "https://example.com/image3.jpg",
+        "mode": "medium"
+      }
+    ]
+  }'
+```
+
+## Response
+
+<ResponseField name="results" type="array">
+  Array of results for each image
+</ResponseField>
+
+<ResponseField name="results[].alt_text" type="string">
+  The generated alt text for this image
+</ResponseField>
+
+<ResponseField name="results[].confidence" type="number">
+  Confidence score (0-1) for this image
+</ResponseField>
+
+<ResponseField name="results[].url" type="string">
+  The original image URL
+</ResponseField>
+
+<ResponseField name="total_credits_used" type="number">
+  Total credits consumed for all images
+</ResponseField>
+
+<ResponseField name="success_count" type="number">
+  Number of successfully processed images
+</ResponseField>
+
+<ResponseField name="error_count" type="number">
+  Number of images that failed to process
+</ResponseField>
+
+### Example Response
+
+```json
+{
+  "results": [
+    {
+      "alt_text": "A beautiful sunset over the ocean",
+      "confidence": 0.95,
+      "url": "https://example.com/image1.jpg"
+    },
+    {
+      "alt_text": "A detailed description of a mountain landscape with snow-capped peaks and a clear blue sky",
+      "confidence": 0.92,
+      "url": "https://example.com/image2.jpg"
+    },
+    {
+      "alt_text": "A city street at night with neon lights",
+      "confidence": 0.88,
+      "url": "https://example.com/image3.jpg"
+    }
+  ],
+  "total_credits_used": 3,
+  "success_count": 3,
+  "error_count": 0
+}
+```
+
+## Rate Limits
+
+Batch requests count as multiple individual requests for rate limiting purposes. Each image in the batch consumes one credit and counts toward your rate limit.
+
+<Info>
+  Batch processing is more efficient than making multiple individual requests, but still counts toward your usage limits.
+</Info>
+

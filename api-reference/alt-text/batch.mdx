@@ -21,7 +21,7 @@ Process multiple images efficiently in a single API call. This is ideal for bulk
 </ParamField>
 
 <ParamField body="images[].mode" type="string" default="short">
-  The length of alt text for this specific image. Options: `short`, `medium`, `detailed`
+  The length of alt text for this specific image. Options: `short`, `long`, `seo`
 </ParamField>
 
 <ParamField body="api_key" type="string" required>
@@ -42,11 +42,11 @@ curl -X POST https://api.gistmag.co.uk/batch \
       },
       {
         "url": "https://example.com/image2.jpg",
-        "mode": "detailed"
+        "mode": "long"
       },
       {
         "url": "https://example.com/image3.jpg",
-        "mode": "medium"
+        "mode": "seo"
       }
     ]
   }'
@@ -93,7 +93,7 @@ curl -X POST https://api.gistmag.co.uk/batch \
       "url": "https://example.com/image1.jpg"
     },
     {
-      "alt_text": "A detailed description of a mountain landscape with snow-capped peaks and a clear blue sky",
+      "alt_text": "A long description of a mountain landscape with snow-capped peaks and a clear blue sky",
       "confidence": 0.92,
       "url": "https://example.com/image2.jpg"
     },

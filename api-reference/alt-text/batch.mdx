@@ -16,23 +16,23 @@ Process multiple images efficiently in a single API call. This is ideal for bulk
   Your GistMag API key
 </ParamField>
 
-<ParamField body="images" type="array" required>
-  Array of image objects to process
+<ParamField body="images" type="array<object>" required>
+  Array of image objects to process. Each object must contain at least `image_url`.
 </ParamField>
 
-<ParamField body="images[].image_url" type="string" required>
+<ParamField body="images.image_url" type="string" required>
   The URL of the image
 </ParamField>
 
-<ParamField body="images[].mode" type="string" default="short">
+<ParamField body="images.mode" type="string" default="short">
   The length of alt text for this specific image. Options: `short`, `long`, `seo`
 </ParamField>
 
-<ParamField body="images[].language" type="string" optional>
+<ParamField body="images.language" type="string" optional>
   Language code for this specific image (default: en)
 </ParamField>
 
-<ParamField body="images[].source" type="string" optional>
+<ParamField body="images.source" type="string" optional>
   Source identifier for tracking (web, api, extension, wordpress, shopify, batch)
 </ParamField>
 

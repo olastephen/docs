@@ -12,6 +12,10 @@ Process multiple images efficiently in a single API call. This is ideal for bulk
 
 ## Request Body
 
+<ParamField body="api_key" type="string" required>
+  Your GistMag API key
+</ParamField>
+
 <ParamField body="images" type="array" required>
   Array of image objects to process
 </ParamField>
@@ -30,10 +34,6 @@ Process multiple images efficiently in a single API call. This is ideal for bulk
 
 <ParamField body="images[].source" type="string" optional>
   Source identifier for tracking (web, api, extension, wordpress, shopify, batch)
-</ParamField>
-
-<ParamField body="api_key" type="string" required>
-  Your GistMag API key
 </ParamField>
 
 ## Example Request

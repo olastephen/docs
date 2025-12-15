@@ -67,8 +67,7 @@
             "group": "Management",
             "pages": [
               "api-reference/management/usage",
-              "api-reference/management/verify-key",
-              "api-reference/management/record-usage"
+              "api-reference/management/verify-key"
             ]
           }
         ]

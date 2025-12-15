@@ -292,34 +292,6 @@
           }
         }
       }
-    },
-    "/record-usage": {
-      "post": {
-        "summary": "Record Usage",
-        "description": "Record API usage without deducting credits",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RecordUsageRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RecordUsageResponse"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
@@ -500,44 +472,6 @@
           "user_id": {
             "type": "string",
             "description": "The user ID associated with this API key"
-          }
-        }
-      },
-      "RecordUsageRequest": {
-        "type": "object",
-        "required": ["api_key"],
-        "properties": {
-          "api_key": {
-            "type": "string",
-            "description": "Your GistMag API key"
-          },
-          "source": {
-            "type": "string",
-            "enum": ["web", "api", "extension", "wordpress", "shopify", "batch"],
-            "default": "api",
-            "description": "Source of the usage"
-          },
-          "count": {
-            "type": "integer",
-            "default": 1,
-            "description": "Number of usage records to create"
-          },
-          "metadata": {
-            "type": "object",
-            "description": "Additional metadata to store with the usage record"
-          }
-        }
-      },
-      "RecordUsageResponse": {
-        "type": "object",
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "description": "Whether the usage was recorded successfully"
-          },
-          "records_created": {
-            "type": "integer",
-            "description": "Number of usage records created"
           }
         }
       },

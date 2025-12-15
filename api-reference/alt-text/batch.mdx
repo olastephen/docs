@@ -16,12 +16,20 @@ Process multiple images efficiently in a single API call. This is ideal for bulk
   Array of image objects to process
 </ParamField>
 
-<ParamField body="images[].url" type="string" required>
+<ParamField body="images[].image_url" type="string" required>
   The URL of the image
 </ParamField>
 
 <ParamField body="images[].mode" type="string" default="short">
   The length of alt text for this specific image. Options: `short`, `long`, `seo`
+</ParamField>
+
+<ParamField body="images[].language" type="string" optional>
+  Language code for this specific image (default: en)
+</ParamField>
+
+<ParamField body="images[].source" type="string" optional>
+  Source identifier for tracking (web, api, extension, wordpress, shopify, batch)
 </ParamField>
 
 <ParamField body="api_key" type="string" required>
@@ -37,15 +45,15 @@ curl -X POST https://api.gistmag.co.uk/batch \
     "api_key": "your_api_key_here",
     "images": [
       {
-        "url": "https://example.com/image1.jpg",
+        "image_url": "https://example.com/image1.jpg",
         "mode": "short"
       },
       {
-        "url": "https://example.com/image2.jpg",
+        "image_url": "https://example.com/image2.jpg",
         "mode": "long"
       },
       {
-        "url": "https://example.com/image3.jpg",
+        "image_url": "https://example.com/image3.jpg",
         "mode": "seo"
       }
     ]
@@ -55,30 +63,42 @@ curl -X POST https://api.gistmag.co.uk/batch \
 ## Response
 
 <ResponseField name="results" type="array">
-  Array of results for each image
+  Array of alt text responses for each image
 </ResponseField>
 
 <ResponseField name="results[].alt_text" type="string">
-  The generated alt text for this image
+  The generated alt text based on the selected mode
 </ResponseField>
 
-<ResponseField name="results[].confidence" type="number">
-  Confidence score (0-1) for this image
+<ResponseField name="results[].short_alt_text" type="string" optional>
+  Short version of alt text (if mode was short or all modes requested)
 </ResponseField>
 
-<ResponseField name="results[].url" type="string">
+<ResponseField name="results[].long_alt_text" type="string" optional>
+  Long version of alt text (if mode was long or all modes requested)
+</ResponseField>
+
+<ResponseField name="results[].seo_alt_text" type="string" optional>
+  SEO-optimized version of alt text (if mode was seo or all modes requested)
+</ResponseField>
+
+<ResponseField name="results[].image_url" type="string">
   The original image URL
 </ResponseField>
 
-<ResponseField name="total_credits_used" type="number">
-  Total credits consumed for all images
+<ResponseField name="results[].generated_at" type="string">
+  ISO timestamp of when the alt text was generated
 </ResponseField>
 
-<ResponseField name="success_count" type="number">
+<ResponseField name="total" type="number">
+  Total number of images processed
+</ResponseField>
+
+<ResponseField name="successful" type="number">
   Number of successfully processed images
 </ResponseField>
 
-<ResponseField name="error_count" type="number">
+<ResponseField name="failed" type="number">
   Number of images that failed to process
 </ResponseField>
 
@@ -89,23 +109,26 @@ curl -X POST https://api.gistmag.co.uk/batch \
   "results": [
     {
       "alt_text": "A beautiful sunset over the ocean",
-      "confidence": 0.95,
-      "url": "https://example.com/image1.jpg"
+      "short_alt_text": "Sunset over ocean",
+      "long_alt_text": "A beautiful sunset over the ocean with orange and pink hues reflecting on the water",
+      "seo_alt_text": "Sunset over ocean - beach photography - nature scene",
+      "image_url": "https://example.com/image1.jpg",
+      "generated_at": "2024-01-15T10:30:00Z"
     },
     {
-      "alt_text": "A long description of a mountain landscape with snow-capped peaks and a clear blue sky",
-      "confidence": 0.92,
-      "url": "https://example.com/image2.jpg"
+      "alt_text": "A detailed description of a mountain landscape with snow-capped peaks and a clear blue sky",
+      "image_url": "https://example.com/image2.jpg",
+      "generated_at": "2024-01-15T10:30:05Z"
     },
     {
       "alt_text": "A city street at night with neon lights",
-      "confidence": 0.88,
-      "url": "https://example.com/image3.jpg"
+      "image_url": "https://example.com/image3.jpg",
+      "generated_at": "2024-01-15T10:30:10Z"
     }
   ],
-  "total_credits_used": 3,
-  "success_count": 3,
-  "error_count": 0
+  "total": 3,
+  "successful": 3,
+  "failed": 0
 }
 ```
 

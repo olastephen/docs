@@ -9,7 +9,7 @@ The GistMag Text-to-Speech API converts text into natural-sounding speech using 
 
 ## Features
 
-<Columns cols={2}>
+<Columns cols={3}>
   <Card
     title="Basic TTS"
     icon="microphone"
@@ -25,11 +25,39 @@ The GistMag Text-to-Speech API converts text into natural-sounding speech using 
     Stream audio in real-time as it's generated
   </Card>
   <Card
-    title="Background Music"
+    title="Batch Processing"
+    icon="layers"
+    href="/api-reference/tts/batch"
+  >
+    Process long text in batches with pauses
+  </Card>
+  <Card
+    title="With Music"
     icon="music"
     href="/api-reference/tts/with-music"
   >
-    Add background music to your generated speech
+    Generate speech with background music
+  </Card>
+  <Card
+    title="Speech-to-Text"
+    icon="file-text"
+    href="/api-reference/tts/stt"
+  >
+    Transcribe audio files to text
+  </Card>
+  <Card
+    title="Change Speed"
+    icon="gauge"
+    href="/api-reference/tts/change-voice"
+  >
+    Adjust playback speed of audio files
+  </Card>
+  <Card
+    title="Add Music"
+    icon="headphones"
+    href="/api-reference/tts/add-music"
+  >
+    Add background music to existing audio
   </Card>
   <Card
     title="Voices"
@@ -37,6 +65,13 @@ The GistMag Text-to-Speech API converts text into natural-sounding speech using 
     href="/api-reference/tts/voices"
   >
     Browse and select from Google Cloud voices
+  </Card>
+  <Card
+    title="Languages"
+    icon="globe"
+    href="/api-reference/tts/languages"
+  >
+    List all supported languages
   </Card>
 </Columns>
 

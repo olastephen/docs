@@ -61,7 +61,11 @@
               "api-reference/tts/stream",
               "api-reference/tts/batch",
               "api-reference/tts/with-music",
-              "api-reference/tts/voices"
+              "api-reference/tts/stt",
+              "api-reference/tts/change-voice",
+              "api-reference/tts/add-music",
+              "api-reference/tts/voices",
+              "api-reference/tts/languages"
             ]
           },
           {

@@ -1,0 +1,93 @@
+---
+title: "Speech-to-Text"
+api: "POST /tts/stt"
+description: "Transcribe audio files to text using Google Cloud Speech-to-Text"
+---
+
+<Endpoint method="post" url="/tts/stt" />
+
+Transcribe audio files to text using Google Cloud Speech-to-Text. Supports multiple audio formats and languages.
+
+## Request
+
+<ParamField body="audio" type="file" required>
+  Audio file to transcribe (MP3, WAV, FLAC, etc.)
+</ParamField>
+
+<ParamField body="api_key" type="string" required>
+  Your GistMag API key
+</ParamField>
+
+## Response
+
+<ResponseField name="text" type="string">
+  The transcribed text from the audio file
+</ResponseField>
+
+<ResponseField name="language" type="string">
+  The detected language code (e.g., "en-US")
+</ResponseField>
+
+## Credit Cost
+
+**5 credits per minute** of audio (rounded up to the nearest minute).
+
+For example:
+- 30 seconds of audio = 5 credits (1 minute)
+- 2.5 minutes of audio = 15 credits (3 minutes)
+
+## Example Request
+
+<CodeGroup>
+```bash
+curl -X POST https://api.gistmag.co.uk/tts/stt \
+  -F "audio=@recording.wav" \
+  -F "api_key=your_api_key_here"
+```
+
+```javascript
+const formData = new FormData();
+formData.append('audio', audioFile);
+formData.append('api_key', 'your_api_key_here');
+
+const response = await fetch('https://api.gistmag.co.uk/tts/stt', {
+  method: 'POST',
+  body: formData
+});
+
+const result = await response.json();
+console.log(result.text); // Transcribed text
+```
+
+```python
+import requests
+
+with open('recording.wav', 'rb') as audio_file:
+    files = {'audio': audio_file}
+    data = {'api_key': 'your_api_key_here'}
+    
+    response = requests.post(
+        'https://api.gistmag.co.uk/tts/stt',
+        files=files,
+        data=data
+    )
+    
+    result = response.json()
+    print(result['text'])  # Transcribed text
+```
+</CodeGroup>
+
+## Supported Audio Formats
+
+- WAV (recommended)
+- MP3
+- FLAC
+- OGG
+- Other formats supported by Google Cloud Speech-to-Text
+
+## Notes
+
+- The API automatically detects the language in the audio
+- Audio is processed securely and not stored
+- Maximum file size limits apply based on Google Cloud Speech-to-Text constraints
+

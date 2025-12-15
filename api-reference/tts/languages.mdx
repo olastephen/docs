@@ -1,0 +1,83 @@
+---
+title: "Supported Languages"
+api: "GET /tts/languages"
+description: "Get a list of all supported languages for Text-to-Speech"
+---
+
+<Endpoint method="get" url="/tts/languages" />
+
+Retrieve a list of all supported languages for the Text-to-Speech API.
+
+## Request
+
+No parameters required.
+
+## Response
+
+<ResponseField name="languages" type="object">
+  Object mapping language codes to language names
+</ResponseField>
+
+## Example Request
+
+<CodeGroup>
+```bash
+curl -X GET https://api.gistmag.co.uk/tts/languages
+```
+
+```javascript
+const response = await fetch('https://api.gistmag.co.uk/tts/languages');
+const data = await response.json();
+console.log(data.languages);
+// {
+//   "en": "English (US)",
+//   "es": "Spanish (Spain)",
+//   ...
+// }
+```
+
+```python
+import requests
+
+response = requests.get('https://api.gistmag.co.uk/tts/languages')
+data = response.json()
+print(data['languages'])
+```
+</CodeGroup>
+
+## Example Response
+
+```json
+{
+  "languages": {
+    "en": "English (US)",
+    "es": "Spanish (Spain)",
+    "fr": "French (France)",
+    "de": "German",
+    "it": "Italian",
+    "pt": "Portuguese (Brazil)",
+    "ja": "Japanese",
+    "ko": "Korean",
+    "zh": "Chinese (Mandarin, simplified)"
+  }
+}
+```
+
+## Supported Languages
+
+- **en** - English (US)
+- **es** - Spanish (Spain)
+- **fr** - French (France)
+- **de** - German
+- **it** - Italian
+- **pt** - Portuguese (Brazil)
+- **ja** - Japanese
+- **ko** - Korean
+- **zh** - Chinese (Mandarin, simplified)
+
+## Notes
+
+- Language codes follow ISO 639-1 standard
+- Use these codes in the `language` parameter for TTS endpoints
+- Each language has multiple voice options available (see [Voices](/api-reference/tts/voices))
+

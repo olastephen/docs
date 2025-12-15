@@ -1,0 +1,114 @@
+---
+title: "Add Background Music"
+api: "POST /tts/add-music"
+description: "Add background music to an existing audio file"
+---
+
+<Endpoint method="post" url="/tts/add-music" />
+
+Add background music to an existing audio file. The music will be looped to match the audio length and faded in/out for smooth transitions.
+
+## Request
+
+<ParamField body="audio" type="file" required>
+  Audio file to add music to (MP3, WAV, etc.)
+</ParamField>
+
+<ParamField body="music" type="file" required>
+  Background music file (MP3, WAV, etc.)
+</ParamField>
+
+<ParamField body="music_volume" type="number" default="-20">
+  Music volume in decibels (dB). Range: -40 to 0
+  - Lower values = quieter music
+  - Higher values = louder music
+  - Default: -20 dB (background level)
+</ParamField>
+
+<ParamField body="fade_duration" type="integer" default="2000">
+  Fade in/out duration in milliseconds. Default: 2000ms (2 seconds)
+</ParamField>
+
+<ParamField body="api_key" type="string" required>
+  Your GistMag API key
+</ParamField>
+
+## Response
+
+Returns the combined audio file (voice + music) as MP3.
+
+## Credit Cost
+
+**1 credit** per request (in addition to any credits used to generate the original audio).
+
+## Example Request
+
+<CodeGroup>
+```bash
+curl -X POST https://api.gistmag.co.uk/tts/add-music \
+  -F "audio=@speech.mp3" \
+  -F "music=@background.mp3" \
+  -F "music_volume=-20" \
+  -F "fade_duration=2000" \
+  -F "api_key=your_api_key_here" \
+  --output speech_with_music.mp3
+```
+
+```javascript
+const formData = new FormData();
+formData.append('audio', audioFile);
+formData.append('music', musicFile);
+formData.append('music_volume', '-20');
+formData.append('fade_duration', '2000');
+formData.append('api_key', 'your_api_key_here');
+
+const response = await fetch('https://api.gistmag.co.uk/tts/add-music', {
+  method: 'POST',
+  body: formData
+});
+
+const audioBlob = await response.blob();
+// Use the combined audio
+```
+
+```python
+import requests
+
+with open('speech.mp3', 'rb') as audio_file, \
+     open('background.mp3', 'rb') as music_file:
+    files = {
+        'audio': audio_file,
+        'music': music_file
+    }
+    data = {
+        'music_volume': -20,
+        'fade_duration': 2000,
+        'api_key': 'your_api_key_here'
+    }
+    
+    response = requests.post(
+        'https://api.gistmag.co.uk/tts/add-music',
+        files=files,
+        data=data
+    )
+    
+    with open('speech_with_music.mp3', 'wb') as f:
+        f.write(response.content)
+```
+</CodeGroup>
+
+## How It Works
+
+1. The music file is adjusted to the specified volume
+2. If the music is shorter than the audio, it's looped to match the length
+3. Music is trimmed to exactly match the audio duration
+4. Fade in/out effects are applied for smooth transitions
+5. The voice and music are combined into a single audio file
+
+## Tips
+
+- Use instrumental music to avoid conflicts with voice
+- Adjust `music_volume` to ensure the voice remains clear
+- Longer `fade_duration` creates smoother transitions
+- The music will automatically loop if shorter than the audio
+

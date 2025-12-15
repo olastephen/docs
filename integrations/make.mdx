@@ -1,0 +1,204 @@
+---
+title: "Make.com Integration"
+description: "Automate alt text generation in your Make.com workflows"
+---
+
+## Overview
+
+GistMag integrates seamlessly with Make.com (formerly Integromat) to automatically generate AI-powered alt text for images in your automation workflows.
+
+<Card
+  title="Install GistMag in Make.com"
+  icon="rocket"
+  href="https://www.make.com/en/hq/app-invitation/13425288b9cf9bb84e01060543c1b621"
+>
+  Get started with the Make.com integration
+</Card>
+
+## Quick Start
+
+### 1. Get Your API Key
+
+1. Sign up at [GistMag Dashboard](https://gistmag.co.uk/dashboard)
+2. Navigate to **API Keys** section
+3. Create a new API key
+4. Copy your API key
+
+### 2. Install GistMag in Make.com
+
+Click the button above or manually add the app:
+
+1. Add a **GistMag** module to your scenario
+2. Click **Create a connection**
+3. Paste your API key
+4. Click **Save**
+
+### 3. Start Generating Alt Text
+
+Fill in the image URL and let AI do the rest!
+
+## Available Modules
+
+### Generate Alt Text
+
+Generate alt text for a single image.
+
+**Input Fields:**
+- `imageUrl` (required): Image URL
+- `mode` (optional): `short`, `long`, or `seo` (default: `short`)
+- `language` (optional): Language code (default: `en`)
+
+**Output Fields:**
+- `alt_text`: Generated alt text based on selected mode
+- `short_alt_text`: Concise version (50-100 characters)
+- `long_alt_text`: Detailed description (100-200 characters)
+- `seo_alt_text`: SEO-optimized version
+
+### Batch Process Images
+
+Generate alt text for multiple images at once.
+
+**Input Fields:**
+- `images` (required): Array of image objects
+  - Each object: `{image_url, mode, language}`
+- `source` (optional): Source identifier
+
+**Output:**
+- One bundle per image with all alt text variants
+- Total count, successful, and failed statistics
+
+<Info>
+  The batch module outputs one bundle per image, making it easy to process results individually in your workflow.
+</Info>
+
+### Get Usage Statistics
+
+Check your API usage and remaining credits.
+
+**Output Fields:**
+- `current_month`: Images used this month
+- `monthly_limit`: Monthly limit
+- `remaining`: Remaining credits
+- `subscription_tier`: Subscription tier (free/pro/enterprise)
+- `by_source`: Usage breakdown by source
+
+### Verify API Key
+
+Check if your API key is valid.
+
+**Output Fields:**
+- `valid`: Boolean status
+- `subscription_tier`: Your subscription tier
+- `message`: Status message
+
+## Common Use Cases
+
+### Auto Alt Text for New Images
+
+```
+Google Drive: Watch Files (in a folder)
+  ↓
+GistMag: Generate Alt Text
+  ↓
+Google Sheets: Add Row (save URL and alt text)
+```
+
+### Batch Process Product Images
+
+```
+Google Sheets: Get Rows (product images)
+  ↓
+GistMag: Batch Process Images
+  ↓
+Google Sheets: Update Rows (add alt text)
+```
+
+### Monitor Usage
+
+```
+Schedule: Every day at 9 AM
+  ↓
+GistMag: Get Usage Statistics
+  ↓
+Filter: If remaining < 100
+  ↓
+Email: Send low credit alert
+```
+
+### WordPress Blog Images
+
+```
+WordPress: Watch New Media
+  ↓
+GistMag: Generate Alt Text (SEO mode)
+  ↓
+WordPress: Update Media (set alt text)
+```
+
+## Mode Guide
+
+### Short Mode
+- **Best for**: Icons, thumbnails, navigation images
+- **Length**: 50-100 characters
+- **Example**: "Golden retriever in park"
+
+### Long Mode
+- **Best for**: Hero images, complex scenes, infographics
+- **Length**: 100-200 characters
+- **Example**: "A happy golden retriever running through a lush green park on a sunny day, chasing after a red ball"
+
+### SEO Mode
+- **Best for**: Product images, blog posts, landing pages
+- **Features**: Includes relevant keywords
+- **Example**: "Golden retriever dog playing fetch in park - pet photography"
+
+## Supported Languages
+
+English • Spanish • French • German • Italian • Portuguese • Dutch • Polish • Russian • Japanese • Chinese (Simplified)
+
+## Pricing & Limits
+
+<Info>
+  The Make.com integration is available for all GistMag subscription plans, including the Free plan. Only your credit limits differ by plan.
+</Info>
+
+- **Free Plan**: 50 images (one-time)
+- **Starter Plan**: 500 images/month
+- **Pro Plan**: 1,000 images/month
+- **Business Plan**: 5,000 images/month
+- **Enterprise**: 100,000 images/month
+
+Check your usage anytime with the **Get Usage Statistics** module.
+
+## Troubleshooting
+
+### "Invalid or missing API key"
+- Double-check your API key in the GistMag dashboard
+- Make sure you copied it correctly (no extra spaces)
+- Try regenerating your key
+
+### "Rate limit exceeded"
+- You've reached your monthly limit
+- Check usage with the Get Usage Statistics module
+- Upgrade your plan at [gistmag.co.uk/dashboard/billing](https://gistmag.co.uk/dashboard/billing)
+
+### "Value is not a valid URL address"
+- Make sure your image URL is publicly accessible
+- URL must start with `http://` or `https://`
+- Supported formats: JPEG, PNG, WebP, GIF
+
+## Tips
+
+1. **Test first** - Start with the "Generate Alt Text" module on a single image before batch processing
+2. **Monitor usage** - Set up a daily scenario to check your remaining credits
+3. **Choose the right mode** - Use SEO mode for public-facing images, Short for icons
+4. **Use filters** - Add filters after batch processing to handle successful vs failed results
+5. **Cache results** - Store generated alt text to avoid regenerating for the same image
+
+## Helpful Links
+
+- [Install GistMag in Make.com](https://www.make.com/en/hq/app-invitation/13425288b9cf9bb84e01060543c1b621)
+- [GistMag Website](https://gistmag.co.uk)
+- [API Documentation](/api-reference/introduction)
+- [Make.com Academy](https://academy.make.com)
+

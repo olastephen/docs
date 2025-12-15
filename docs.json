@@ -22,6 +22,15 @@
               "index",
               "quickstart"
             ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/make",
+              "integrations/wordpress",
+              "integrations/shopify",
+              "integrations/browser-extensions"
+            ]
           }
         ]
       },

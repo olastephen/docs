@@ -58,9 +58,9 @@
               "api-reference/tts/introduction",
               "api-reference/tts/basic",
               "api-reference/tts/stream",
-              "api-reference/tts/voice-clone",
               "api-reference/tts/batch",
-              "api-reference/tts/with-music"
+              "api-reference/tts/with-music",
+              "api-reference/tts/voices"
             ]
           },
           {

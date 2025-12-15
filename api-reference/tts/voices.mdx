@@ -1,0 +1,72 @@
+---
+title: "List TTS Voices"
+description: "List available Google Cloud Text-to-Speech voices"
+api: "GET /tts/voices"
+---
+
+## Overview
+
+Retrieve the list of available Text-to-Speech voices provided by Google Cloud, so you can pick a specific `voice_name` when calling the [`/tts`](/api-reference/tts/basic) endpoint.
+
+<Endpoint method="get" url="/tts/voices" />
+
+## Query Parameters
+
+<ParamField query="language" type="string" optional>
+  Optional language filter (e.g. `en`, `es`, `fr`). When provided, only voices that support this language are returned.
+</ParamField>
+
+## Example Request
+
+```bash
+curl -X GET "https://api.gistmag.co.uk/tts/voices?language=en"
+```
+
+## Response
+
+<ResponseField name="voices" type="array">
+  Array of voice objects
+</ResponseField>
+
+<ResponseField name="voices[].name" type="string">
+  The unique voice identifier (use this value as `voice_name` in the `/tts` endpoint)
+</ResponseField>
+
+<ResponseField name="voices[].language_codes" type="string[]">
+  List of BCP-47 language codes supported by this voice (e.g. `["en-US"]`)
+</ResponseField>
+
+<ResponseField name="voices[].ssml_gender" type="string">
+  Voice gender as defined by Google Cloud (`MALE`, `FEMALE`, `NEUTRAL`)
+</ResponseField>
+
+<ResponseField name="voices[].natural_sample_rate_hertz" type="number">
+  Natural sample rate of the voice in Hz
+</ResponseField>
+
+### Example Response
+
+```json
+{
+  "voices": [
+    {
+      "name": "en-US-Wavenet-D",
+      "language_codes": ["en-US"],
+      "ssml_gender": "MALE",
+      "natural_sample_rate_hertz": 24000
+    },
+    {
+      "name": "en-US-Wavenet-F",
+      "language_codes": ["en-US"],
+      "ssml_gender": "FEMALE",
+      "natural_sample_rate_hertz": 24000
+    }
+  ]
+}
+```
+
+## Usage with `/tts`
+
+To use a specific voice, pass its `name` as the `voice_name` field in the [`/tts`](/api-reference/tts/basic) request body.
+
+

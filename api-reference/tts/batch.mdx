@@ -78,10 +78,6 @@ with open("output.mp3", "wb") as f:
     f.write(response.content)
 ```
 
-## Voice Cloning with Batch
-
-For batch processing with voice cloning, use the [`/tts/batch/voice-clone`](/api-reference/tts/batch-voice-clone) endpoint.
-
 <Info>
   Batch processing is more efficient for long text as it handles chunking and combining automatically, ensuring natural pauses between sentences.
 </Info>

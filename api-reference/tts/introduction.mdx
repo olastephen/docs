@@ -5,7 +5,7 @@ description: "Introduction to the Text-to-Speech API"
 
 ## Overview
 
-The GistMag Text-to-Speech API converts text into natural-sounding speech using advanced AI models. It supports multiple languages, voice cloning, streaming, and background music.
+The GistMag Text-to-Speech API converts text into natural-sounding speech using **Google Cloud Text-to-Speech**. It supports multiple languages, multiple voices, streaming, and background music.
 
 ## Features
 
@@ -16,13 +16,6 @@ The GistMag Text-to-Speech API converts text into natural-sounding speech using 
     href="/api-reference/tts/basic"
   >
     Convert text to speech with a simple API call
-  </Card>
-  <Card
-    title="Voice Cloning"
-    icon="user"
-    href="/api-reference/tts/voice-clone"
-  >
-    Clone any voice from a reference audio sample
   </Card>
   <Card
     title="Streaming"
@@ -38,11 +31,18 @@ The GistMag Text-to-Speech API converts text into natural-sounding speech using 
   >
     Add background music to your generated speech
   </Card>
+  <Card
+    title="Voices"
+    icon="user"
+    href="/api-reference/tts/voices"
+  >
+    Browse and select from Google Cloud voices
+  </Card>
 </Columns>
 
 ## Supported Languages
 
-The TTS API supports 17+ languages including:
+The TTS API supports multiple languages, including:
 
 - English (en)
 - Spanish (es)
@@ -50,25 +50,9 @@ The TTS API supports 17+ languages including:
 - German (de)
 - Italian (it)
 - Portuguese (pt)
-- Polish (pl)
-- Turkish (tr)
-- Russian (ru)
-- Dutch (nl)
-- Czech (cs)
-- Arabic (ar)
-- Chinese (zh-cn)
 - Japanese (ja)
-- Hungarian (hu)
 - Korean (ko)
-- Hindi (hi)
-
-<Card
-  title="View All Languages"
-  icon="globe"
-  href="/api-reference/tts/languages"
->
-  Get the complete list of supported languages
-</Card>
+- Chinese (zh)
 
 ## Audio Formats
 
@@ -76,14 +60,14 @@ The TTS API supports 17+ languages including:
 - **Output**: WAV (uncompressed) or MP3 (compressed) audio files
 - **Streaming**: MP3 format for efficient streaming
 
-## Model
+## Engine
 
-The API uses **XTTS-v2**, a state-of-the-art multilingual text-to-speech model that provides:
+The API uses **Google Cloud Text-to-Speech** under the hood, which provides:
 
 - High-quality, natural-sounding speech
-- Voice cloning capabilities
-- Support for multiple languages
-- Fast generation times
+- Multiple neural voices per language
+- Control over speaking rate, pitch, and volume
+- Fast, scalable generation with Google Cloud infrastructure
 
 ## Quick Start
 

@@ -8,6 +8,9 @@
     "dark": "#15803D"
   },
   "favicon": "/favicon.svg",
+  "api": {
+    "baseUrl": "https://api.gistmag.co.uk"
+  },
   "navigation": {
     "tabs": [
       {

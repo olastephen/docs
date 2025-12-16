@@ -5,7 +5,7 @@ description: "Introduction to the Text-to-Speech API"
 
 ## Overview
 
-The GistMag Text-to-Speech API converts text into natural-sounding speech using **Google Cloud Text-to-Speech**. It supports multiple languages, multiple voices, streaming, and background music.
+The GistMag Text-to-Speech API converts text into natural-sounding speech using **Google Cloud Text-to-Speech**. It also provides Speech-to-Text transcription using **OpenAI Whisper API**. The API supports multiple languages, multiple voices, streaming, background music, and high-quality audio transcription.
 
 ## Features
 
@@ -95,14 +95,23 @@ The TTS API supports multiple languages, including:
 - **Output**: WAV (uncompressed) or MP3 (compressed) audio files
 - **Streaming**: MP3 format for efficient streaming
 
-## Engine
+## Engines
 
-The API uses **Google Cloud Text-to-Speech** under the hood, which provides:
+### Text-to-Speech
+The API uses **Google Cloud Text-to-Speech** for TTS, which provides:
 
 - High-quality, natural-sounding speech
 - Multiple neural voices per language
 - Control over speaking rate, pitch, and volume
 - Fast, scalable generation with Google Cloud infrastructure
+
+### Speech-to-Text
+The API uses **OpenAI Whisper API** for STT, which provides:
+
+- High-accuracy transcription with automatic language detection
+- Support for many audio formats (MP3, WAV, M4A, FLAC, OGG, etc.)
+- Multi-language support with automatic language detection
+- Robust handling of various accents and audio qualities
 
 ## Quick Start
 

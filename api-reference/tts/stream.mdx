@@ -62,10 +62,23 @@ The response is a streaming MP3 audio file. Audio chunks are sent as they're gen
 
 ## How It Works
 
-1. Text is automatically split into chunks at sentence boundaries
-2. Each chunk is processed and converted to speech
-3. Audio chunks are streamed immediately as MP3
-4. Client can start playing audio while remaining chunks are being generated
+1. **Text Splitting**: Text is automatically split into chunks at sentence boundaries (`.`, `!`, `?`) to maintain natural speech flow
+2. **Sequential Processing**: Each chunk is processed independently and converted to speech
+3. **Real-time Streaming**: Audio chunks are streamed immediately as MP3 (128k bitrate) as soon as they're generated
+4. **Low Latency**: Client can start playing audio while remaining chunks are still being generated
+
+## When to Use Streaming
+
+**Use streaming when:**
+- You want **low latency** - audio starts playing immediately
+- Building **live reading** or **real-time applications**
+- Users need to hear audio **as quickly as possible**
+- You're okay with receiving multiple audio chunks that need to be combined client-side
+
+**Don't use streaming when:**
+- You need a **single complete file** for download
+- You want **pauses between segments** (use batch instead)
+- You prefer **higher quality audio** (batch uses 192k vs streaming's 128k)
 
 ## Example Usage
 

@@ -44,10 +44,24 @@ curl -X POST https://api.gistmag.co.uk/tts/batch \
 
 ## How It Works
 
-1. Text is automatically split at sentence boundaries
-2. Each segment is processed independently
-3. Audio segments are combined with pauses between them
-4. Final audio is normalized and exported as MP3
+1. **Text Splitting**: Text is automatically split at sentence boundaries (`.`, `!`, `?`) into chunks of up to 250 characters, keeping sentences intact
+2. **Sequential Processing**: Each segment is processed independently and saved to temporary files
+3. **Combining with Pauses**: Audio segments are combined sequentially with configurable pauses (default 800ms) between them for natural breaks
+4. **Normalization**: Final audio is normalized for consistent volume across all segments
+5. **Single Output**: Exported as a single high-quality MP3 file (192k bitrate)
+
+## When to Use Batch Processing
+
+**Use batch processing when:**
+- You need a **single complete MP3 file** for download
+- Processing **long-form content** (articles, books, documentation, audiobooks)
+- You want **natural pauses** between text segments
+- You prefer **higher quality audio** (192k bitrate)
+- You're creating content for **offline playback**
+
+**Don't use batch when:**
+- You need **real-time/low latency** playback (use streaming instead)
+- You want audio to start playing **immediately** (use streaming instead)
 
 ## Response
 

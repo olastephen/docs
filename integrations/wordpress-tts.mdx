@@ -1,0 +1,201 @@
+---
+title: "WordPress TTS Reader"
+description: "Add text-to-speech functionality to your WordPress blog posts"
+---
+
+## Overview
+
+The GistMag TTS Reader plugin adds text-to-speech functionality to your WordPress blog posts, allowing visitors to listen to your content instead of reading it. This makes your blog more accessible and convenient for users who prefer audio content.
+
+<Card
+  title="Install WordPress TTS Plugin"
+  icon="wordpress"
+  href="https://api.gistmag.co.uk/downloads/wordpress-tts-plugin"
+>
+  Download Plugin
+</Card>
+
+## Features
+
+- **Streaming Audio**: Audio starts playing as soon as it's generated
+- **Automatic Display**: Automatically show player on blog posts
+- **Speed Control**: Users can adjust playback speed (0.25x to 2.0x)
+- **Customizable Settings**: Control language, voice, and default speed
+- **Two Player Modes**: Full media player with controls or simple player
+- **Responsive Design**: Works on desktop and mobile devices
+- **Dark Mode Support**: Automatic dark mode detection
+- **Shortcode Support**: Manually place the player anywhere using `[gistmag_tts]`
+
+## Installation
+
+### Manual Installation
+
+1. Download the plugin ZIP file from the [download link](https://api.gistmag.co.uk/downloads/wordpress-tts-plugin)
+2. Log in to your WordPress admin panel
+3. Go to **Plugins** → **Add New** → **Upload Plugin**
+4. Choose the ZIP file (`gistmag-tts-reader.zip`) and click **Install Now**
+5. Click **Activate**
+
+## Configuration
+
+### 1. Get Your API Key
+
+1. Sign up at [GistMag Dashboard](https://gistmag.co.uk/dashboard)
+2. Navigate to **API Keys** section
+3. Create a new API key if you don't have one
+4. Copy your API key
+
+### 2. Configure the Plugin
+
+1. Go to **Settings** → **TTS Reader**
+2. Paste your API key
+3. Configure the following settings:
+   - **Enable TTS Reader**: Toggle to enable/disable the plugin
+   - **Auto Show Player**: Automatically show player on posts
+   - **Player Position**: Choose top or bottom of post
+   - **Player Type**: 
+     - **Full Media Player**: Includes speed control and settings panel
+     - **Simple Player**: Basic play/pause controls only
+   - **Language**: Select the default language (e.g., English, Spanish, French)
+   - **Voice Name** (Optional): Specify a voice name or leave empty for auto-select
+   - **Default Speed**: Set the default playback speed (0.25x to 4.0x)
+4. Click **Save Settings**
+
+## Usage
+
+### Automatic Display
+
+When "Auto Show Player" is enabled, the TTS player will automatically appear on all blog posts at the position you selected (top or bottom).
+
+### Manual Placement with Shortcode
+
+You can manually place the player anywhere in your post content using the shortcode:
+
+```
+[gistmag_tts]
+```
+
+This is useful if you want to place the player in a specific location within your post content.
+
+### User Controls (Full Media Player)
+
+When using the Full Media Player mode, users can:
+
+- **Play/Pause**: Control audio playback
+- **Adjust Speed**: Use the settings panel to change playback speed from 0.25x to 2.0x
+- **View Progress**: See current time and total duration
+- **Seek**: Click on the progress bar to jump to a specific position
+
+### Simple Player Mode
+
+The Simple Player mode provides basic play/pause functionality without speed controls, ideal for a cleaner, minimal interface.
+
+## Player Features
+
+### Full Media Player
+
+- Play/Pause button with visual feedback
+- Progress bar with time display
+- Settings panel (gear icon) with speed control slider
+- Status indicator showing current state (Ready, Playing, Paused, etc.)
+- Error handling with user-friendly messages
+
+### Simple Player
+
+- Play/Pause button
+- Progress bar
+- Time display
+- Status indicator
+
+## Speed Control
+
+Users can adjust the playback speed using the slider in the settings panel:
+
+- **0.25x**: Very slow (for detailed listening)
+- **0.5x**: Slow
+- **0.75x**: Slightly slow
+- **1.0x**: Normal speed (default)
+- **1.25x**: Slightly fast
+- **1.5x**: Fast
+- **1.75x**: Very fast
+- **2.0x**: Maximum speed
+
+Speed changes apply immediately without restarting the audio.
+
+## Supported Languages
+
+The plugin supports all languages available in Google Cloud Text-to-Speech:
+
+- English (US, UK, AU)
+- Spanish
+- French
+- German
+- Italian
+- Portuguese
+- Japanese
+- Korean
+- Chinese
+- And many more...
+
+## Customization
+
+### Player Position
+
+Choose where the player appears on your posts:
+- **Top**: Player appears before the post content
+- **Bottom**: Player appears after the post content
+
+### Player Type
+
+- **Full Media Player**: Best for users who want control over playback speed
+- **Simple Player**: Best for a minimal, distraction-free experience
+
+### Voice Selection
+
+You can specify a voice name in the settings, or leave it empty to let the plugin automatically select the best voice for the chosen language.
+
+## Troubleshooting
+
+### Player not appearing
+
+- Verify the plugin is activated
+- Check that "Enable TTS Reader" is enabled in settings
+- Ensure "Auto Show Player" is enabled if you want automatic display
+- Check that you're viewing a single post (not archive pages)
+
+### Audio not playing
+
+- Verify your API key is correct and valid
+- Check your API usage limits and credits
+- Ensure your post has content (not empty)
+- Check browser console for error messages
+
+### Speed control not working
+
+- Make sure you're using "Full Media Player" mode
+- Check that the settings panel is open (click the gear icon)
+- Try refreshing the page
+
+### API key errors
+
+- Verify your API key in the [GistMag Dashboard](https://gistmag.co.uk/dashboard/api-key)
+- Check that you have sufficient credits
+- Ensure the API key hasn't been revoked
+
+## Support
+
+For plugin-specific issues, contact [GistMag Support](mailto:support@gistmag.co.uk).
+
+For API issues or questions about credits, visit the [GistMag Dashboard](https://gistmag.co.uk/dashboard).
+
+## Requirements
+
+- WordPress 5.0 or higher
+- PHP 7.4 or higher
+- GistMag API key
+- Active internet connection
+
+## Credits
+
+The plugin uses your GistMag credits for TTS generation. Each request consumes credits based on the text length. Check your usage in the [Analytics Dashboard](https://gistmag.co.uk/dashboard/analytics).
+

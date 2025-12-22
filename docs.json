@@ -28,6 +28,7 @@
             "pages": [
               "integrations/make",
               "integrations/wordpress",
+              "integrations/wordpress-tts",
               "integrations/shopify",
               "integrations/browser-extensions"
             ]

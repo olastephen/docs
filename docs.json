@@ -70,6 +70,13 @@
             ]
           },
           {
+            "group": "Blog Generator",
+            "pages": [
+              "api-reference/blog-generator/introduction",
+              "api-reference/blog-generator/generate"
+            ]
+          },
+          {
             "group": "Management",
             "pages": [
               "api-reference/management/usage",

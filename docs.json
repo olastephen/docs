@@ -70,7 +70,7 @@
             ]
           },
           {
-            "group": "Blog Generator",
+            "group": "Blog Meta Generator",
             "pages": [
               "api-reference/blog-generator/introduction",
               "api-reference/blog-generator/generate"

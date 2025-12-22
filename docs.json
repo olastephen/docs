@@ -29,6 +29,7 @@
               "integrations/make",
               "integrations/wordpress",
               "integrations/wordpress-tts",
+              "integrations/wordpress-blog-meta-generator",
               "integrations/shopify",
               "integrations/browser-extensions"
             ]

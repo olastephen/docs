@@ -13,7 +13,7 @@ Process long text efficiently by automatically splitting it into chunks and comb
 ## Request Body
 
 <ParamField body="text" type="string" required>
-  The text to convert to speech. **Maximum length: 200,000 characters**. For text longer than this limit, split it into multiple requests or use the streaming endpoint.
+  The text to convert to speech. **Maximum length: 100,000 characters**. For text longer than this limit, split it into multiple requests or use the streaming endpoint.
 </ParamField>
 
 <ParamField body="language" type="string" default="en">
@@ -44,13 +44,17 @@ curl -X POST https://api.gistmag.co.uk/tts/batch \
 
 ## Text Length Limits
 
-- **Maximum**: 200,000 characters per request
-- **Recommended**: For text longer than 200,000 characters, split it into multiple batch requests or use the [streaming endpoint](/api-reference/tts/stream)
-- **Processing Time**: Approximately 1 second per 1,000 characters (e.g., 200,000 characters ≈ 3-4 minutes)
+- **Maximum**: 100,000 characters per request
+- **Recommended**: For text longer than 100,000 characters, split it into multiple batch requests or use the [streaming endpoint](/api-reference/tts/stream)
+- **Processing Time**: Approximately 1 second per 1,000 characters (e.g., 100,000 characters ≈ 1.5-2 minutes)
 
 <Warning>
-  Requests exceeding 200,000 characters will return a 400 error. For very long content, consider splitting it into multiple requests or using the streaming endpoint for real-time playback.
+  Requests exceeding 100,000 characters will return a 400 error. For very long content, consider splitting it into multiple requests or using the streaming endpoint for real-time playback.
 </Warning>
+
+<Info>
+  Batch TTS processes one request at a time to prevent server overload. If you receive a 429 error, another batch request is currently processing. Please wait for it to complete before submitting a new request.
+</Info>
 
 ## How It Works
 
@@ -87,19 +91,27 @@ The response is a single MP3 audio file containing the complete text with natura
 Processing time scales with text length:
 - **Small text** (< 10,000 chars): ~10-30 seconds
 - **Medium text** (10,000-50,000 chars): ~1-2 minutes
-- **Large text** (50,000-200,000 chars): ~2-5 minutes
+- **Large text** (50,000-100,000 chars): ~1.5-2 minutes
 
-For very long texts, the request may take several minutes. Ensure your client has appropriate timeout settings (recommended: at least 5 minutes for 200k characters).
+For very long texts, the request may take a few minutes. Ensure your client has appropriate timeout settings (recommended: at least 3 minutes for 100k characters).
 
 ### Error Responses
 
 **400 Bad Request** - Text exceeds maximum length:
 ```json
 {
-  "error": "Text is too long for batch processing. Maximum is 200,000 characters. Your text has 250,000 characters.",
-  "text_length": 250000,
-  "max_length": 200000,
+  "error": "Text is too long for batch processing. Maximum is 100,000 characters. Your text has 150,000 characters.",
+  "text_length": 150000,
+  "max_length": 100000,
   "suggestion": "Please split your text into smaller chunks or use the streaming endpoint for very long text."
+}
+```
+
+**429 Too Many Requests** - Another batch request is processing:
+```json
+{
+  "error": "Another batch request is currently processing. Please wait for it to complete before submitting a new request.",
+  "message": "Batch TTS can only process one request at a time to prevent server overload."
 }
 ```
 
@@ -114,8 +126,7 @@ For very long texts, the request may take several minutes. Ensure your client ha
 - 2,500 characters = **3 credits** (rounded up)
 - 10,000 characters = **10 credits**
 - 50,000 characters = **50 credits**
-- 100,000 characters = **100 credits**
-- 200,000 characters = **200 credits** (maximum)
+- 100,000 characters = **100 credits** (maximum)
 
 ## Example Usage
 
@@ -140,12 +151,13 @@ with open("output.mp3", "wb") as f:
 
 ## Best Practices
 
-1. **For very long content** (> 200,000 characters): Split into multiple batch requests or use streaming
-2. **Set appropriate timeouts**: Allow at least 5 minutes for maximum-length requests
+1. **For very long content** (> 100,000 characters): Split into multiple batch requests or use streaming
+2. **Set appropriate timeouts**: Allow at least 3 minutes for maximum-length requests
 3. **Monitor progress**: Use the dashboard to track processing status for long batches
-4. **Error handling**: Always check for 400 errors indicating text length limits
+4. **Error handling**: Always check for 400 errors (text length limits) and 429 errors (concurrent requests)
+5. **Wait for completion**: Only one batch request can process at a time. Wait for the current request to complete before submitting another.
 
 <Info>
-  Batch processing is more efficient for long text as it handles chunking and combining automatically, ensuring natural pauses between sentences. The 200,000 character limit ensures reliable processing and prevents server overload.
+  Batch processing is more efficient for long text as it handles chunking and combining automatically, ensuring natural pauses between sentences. The 100,000 character limit ensures reliable processing and prevents server overload. Files are automatically cleaned up after download to save disk space.
 </Info>
 

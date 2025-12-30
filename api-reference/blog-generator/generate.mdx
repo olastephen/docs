@@ -115,6 +115,14 @@ if (response.ok) {
 }
 ```
 
+## Image Generation
+
+Images are generated using **Nano Banana** (Google Gemini Image Generation API) and automatically uploaded to Supabase Storage. Each image is returned as a public URL that can be directly used in your application or downloaded.
+
+<Info>
+All images are hosted on Supabase Storage and are publicly accessible via the returned URLs. Images are generated in the style you specify and optimized for web use.
+</Info>
+
 ## Response
 
 <ResponseField name="images" type="array">
@@ -122,7 +130,7 @@ if (response.ok) {
 </ResponseField>
 
 <ResponseField name="images[].url" type="string">
-  URL of the generated image
+  Public URL of the generated image (hosted on Supabase Storage). Images are generated using Nano Banana (Google Gemini) and automatically uploaded to storage.
 </ResponseField>
 
 <ResponseField name="images[].style" type="string">
@@ -155,17 +163,17 @@ if (response.ok) {
 {
   "images": [
     {
-      "url": "https://oaidalleapiprodscus.blob.core.windows.net/private/...",
+      "url": "https://eutekssvzhtkwzperkzb.supabase.co/storage/v1/object/public/blog-images/1234567890-abc123.png",
       "style": "realistic",
       "description": "Create a realistic style image representing: 10 Tips for Better Productivity..."
     },
     {
-      "url": "https://oaidalleapiprodscus.blob.core.windows.net/private/...",
+      "url": "https://eutekssvzhtkwzperkzb.supabase.co/storage/v1/object/public/blog-images/1234567891-def456.png",
       "style": "realistic",
       "description": "Create a realistic style image representing: 10 Tips for Better Productivity..."
     },
     {
-      "url": "https://oaidalleapiprodscus.blob.core.windows.net/private/...",
+      "url": "https://eutekssvzhtkwzperkzb.supabase.co/storage/v1/object/public/blog-images/1234567892-ghi789.png",
       "style": "realistic",
       "description": "Create a realistic style image representing: 10 Tips for Better Productivity..."
     }

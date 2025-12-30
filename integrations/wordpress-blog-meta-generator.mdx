@@ -77,8 +77,9 @@ Click the respective buttons to apply each element to your post. The buttons wil
 ### Setting Featured Images
 
 1. After generating images, click **Set as Featured** on any image you like
-2. The plugin will download the image and set it as your post's featured image
-3. The page will refresh to show the new featured image
+2. The plugin will download the image from Supabase Storage and set it as your post's featured image
+3. Images are automatically uploaded to Supabase Storage and returned as public URLs for easy use
+4. The page will refresh to show the new featured image
 
 ### Auto-Apply Feature
 
@@ -113,6 +114,7 @@ Make sure you have entered a title in the post editor. The plugin will auto-fill
 - Ensure you have proper file upload permissions
 - Check that your WordPress installation has enough disk space
 - Verify your API key is valid and has sufficient credits
+- Images are downloaded from Supabase Storage URLs, so ensure your server can access external URLs
 
 ### Tags Not Applying
 

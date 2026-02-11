@@ -84,6 +84,12 @@
             ]
           },
           {
+            "group": "Indexing",
+            "pages": [
+              "api-reference/indexing"
+            ]
+          },
+          {
             "group": "Management",
             "pages": [
               "api-reference/management/usage",

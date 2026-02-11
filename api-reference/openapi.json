@@ -363,6 +363,262 @@
           }
         }
       }
+    },
+    "/indexing/jobs": {
+      "post": {
+        "summary": "Create Indexing Job",
+        "description": "Create a new indexing job (check or submit) for up to 10,000 URLs. Charges 1 credit per URL.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IndexingCreateJobRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Job created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["job_id", "type", "total_urls", "status"],
+                  "properties": {
+                    "job_id": { "type": "string", "description": "ID of the created job" },
+                    "type": { "type": "string", "enum": ["check", "submit"] },
+                    "total_urls": { "type": "integer" },
+                    "status": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List Indexing Jobs",
+        "description": "List indexing jobs for the authenticated user.",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Your GistMag API key"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["check", "submit"] },
+            "description": "Filter by job type"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100 },
+            "description": "Number of jobs to return (default 20)"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0 },
+            "description": "Offset for pagination (default 0)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of jobs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/IndexJob" }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/indexing/jobs/{job_id}": {
+      "get": {
+        "summary": "Get Indexing Job",
+        "description": "Get a single indexing job summary for the authenticated user.",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the indexing job"
+          },
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Your GistMag API key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Job details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/IndexJob" }
+              }
+            }
+          },
+          "404": {
+            "description": "Job not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/indexing/jobs/{job_id}/urls": {
+      "get": {
+        "summary": "List URLs in Indexing Job",
+        "description": "List URLs and results for a specific indexing job.",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the indexing job"
+          },
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Your GistMag API key"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["pending", "processing", "done", "failed"]
+            },
+            "description": "Filter by URL status"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 1000 },
+            "description": "Number of rows to return (default 100)"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0 },
+            "description": "Offset for pagination (default 0)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of job URLs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/IndexJobUrl" }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Job not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/indexing/jobs/{job_id}/export": {
+      "get": {
+        "summary": "Export Indexing Job as CSV",
+        "description": "Export all URLs and results for an indexing job as CSV.",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "ID of the indexing job"
+          },
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Your GistMag API key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CSV export",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -649,6 +905,108 @@
           "user_id": {
             "type": "string",
             "description": "The user ID associated with this API key"
+          }
+        }
+      },
+      "IndexingCreateJobRequest": {
+        "type": "object",
+        "required": ["api_key", "type", "urls"],
+        "properties": {
+          "api_key": {
+            "type": "string",
+            "description": "Your GistMag API key"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["check", "submit"],
+            "description": "Job type: 'check' (use Apify index checker) or 'submit' (use Google Indexing API)"
+          },
+          "urls": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1,
+            "maxItems": 10000,
+            "description": "List of URLs to check or submit"
+          },
+          "source": {
+            "type": "string",
+            "enum": ["web", "api", "extension", "wordpress", "shopify", "batch", "tts"],
+            "description": "Optional source identifier for tracking usage"
+          }
+        }
+      },
+      "IndexJob": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "Job ID" },
+          "type": { "type": "string", "enum": ["check", "submit"] },
+          "total_urls": { "type": "integer" },
+          "processed_urls": { "type": "integer" },
+          "indexed_count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of URLs marked as indexed (check jobs only)"
+          },
+          "submitted_count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of URLs successfully submitted (submit jobs only)"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "running", "complete", "failed"]
+          },
+          "error_message": {
+            "type": "string",
+            "nullable": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "IndexJobUrl": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "url": { "type": "string", "description": "URL that was checked or submitted" },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "processing", "done", "failed"]
+          },
+          "is_indexed": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "true/false when we have a definitive answer, null when unknown (e.g. rate-limited)"
+          },
+          "google_status": {
+            "type": "string",
+            "nullable": true,
+            "description": "Raw status from Google Indexing API (submit jobs) or null"
+          },
+          "raw_result": {
+            "type": "object",
+            "nullable": true,
+            "description": "Provider-specific raw result",
+            "properties": {
+              "reason": {
+                "type": "string",
+                "description": "Optional classification: indexed / not_indexed / rate_limited / error"
+              },
+              "proofUrl": {
+                "type": "string",
+                "description": "One result URL used as proof for is_indexed"
+              }
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },

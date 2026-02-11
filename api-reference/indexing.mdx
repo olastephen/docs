@@ -1,0 +1,181 @@
+---
+title: "Indexing"
+description: "Check if URLs are indexed in Google and submit them for faster indexing."
+---
+
+## Overview
+
+The **Indexing** APIs let you:
+
+- **Index Check**: Check whether URLs are currently indexed in Google Search (via a dedicated Apify actor).
+- **Index Submit**: Submit URLs to Google's Indexing API for faster discovery (future-facing, schema is prepared).
+
+Each URL consumes **1 credit** whether you are checking or submitting.
+
+All endpoints live under the main API base URL:
+
+```text
+https://api.gistmag.co.uk
+```
+
+You will need your **GistMag API key** from the [Dashboard](https://gistmag.co.uk/dashboard/api-key).
+
+---
+
+## Create an indexing job
+
+Use `POST /indexing/jobs` to create a new job with up to **10,000 URLs** per request.
+
+### Request
+
+```http
+POST /indexing/jobs HTTP/1.1
+Host: api.gistmag.co.uk
+Content-Type: application/json
+
+{
+  "api_key": "gm_your_api_key_here",
+  "type": "check",
+  "urls": [
+    "https://www.example.co.uk/",
+    "https://www.example.co.uk/about"
+  ],
+  "source": "web"
+}
+```
+
+- **api_key** (string, required): Your GistMag API key.
+- **type** (string, required): `"check"` or `"submit"`.
+  - `"check"` – uses the Apify index checker actor to query Google Search.
+  - `"submit"` – reserved for Google Indexing API submissions.
+- **urls** (string[], required): List of full URLs. 1–10,000 items per job.
+- **source** (string, optional): Source identifier (`"web"`, `"api"`, `"extension"`, `"wordpress"`, `"shopify"`, `"batch"`, `"tts"`). Defaults to `"web"` when omitted.
+
+### Response
+
+```json
+{
+  "job_id": "7d3e4b40-3c8c-4c96-8e4d-abc123ef4567",
+  "type": "check",
+  "total_urls": 2,
+  "status": "running"
+}
+```
+
+Use the `job_id` to fetch job status and per-URL results.
+
+---
+
+## List your indexing jobs
+
+```http
+GET /indexing/jobs?api_key=gm_your_api_key_here&type=check&limit=20&offset=0
+```
+
+### Response
+
+```json
+[
+  {
+    "id": "7d3e4b40-3c8c-4c96-8e4d-abc123ef4567",
+    "type": "check",
+    "total_urls": 2,
+    "processed_urls": 2,
+    "indexed_count": 1,
+    "submitted_count": null,
+    "status": "complete",
+    "error_message": null,
+    "created_at": "2026-02-11T18:30:12.123Z"
+  }
+]
+```
+
+---
+
+## Get a single job
+
+```http
+GET /indexing/jobs/{job_id}?api_key=gm_your_api_key_here
+```
+
+Returns the same `IndexJob` shape as in the list endpoint.
+
+---
+
+## List URLs and results in a job
+
+```http
+GET /indexing/jobs/{job_id}/urls?api_key=gm_your_api_key_here&limit=100&offset=0
+```
+
+### Response (Index Check jobs)
+
+```json
+[
+  {
+    "id": "c1f3c4b5-1234-4b4a-9ac0-bb27f2955d23",
+    "url": "https://www.example.co.uk/",
+    "status": "done",
+    "is_indexed": true,
+    "google_status": null,
+    "raw_result": {
+      "reason": "indexed",
+      "proofUrl": "https://www.example.co.uk/"
+    },
+    "created_at": "2026-02-11T18:30:13.000Z",
+    "updated_at": "2026-02-11T18:30:20.000Z"
+  },
+  {
+    "id": "b2d3ff89-5678-4f7c-8080-cc09c67a11aa",
+    "url": "https://www.example.co.uk/about",
+    "status": "failed",
+    "is_indexed": null,
+    "google_status": null,
+    "raw_result": {
+      "reason": "rate_limited"
+    },
+    "created_at": "2026-02-11T18:30:13.000Z",
+    "updated_at": "2026-02-11T18:30:25.000Z"
+  }
+]
+```
+
+- **status**:
+  - `"pending"` / `"processing"` – not finished yet.
+  - `"done"` – we have a definitive answer.
+  - `"failed"` – something went wrong (for checks this is often rate limiting).
+- **is_indexed**:
+  - `true` – Google SERP contained a clear match for the URL.
+  - `false` – SERP loaded but no match found.
+  - `null` – unknown (e.g. rate-limited).
+- **raw_result.reason**:
+  - `"indexed"` – clear match found.
+  - `"not_indexed"` – no match found on SERP.
+  - `"rate_limited"` – Google blocked the check (429 / CAPTCHA / “unusual traffic”).
+  - `"error"` – other error.
+
+<Note>
+  In the GistMag dashboard, URLs with <code>reason = "rate_limited"</code> are shown as **Rate limited** so
+  you can distinguish them from true “not indexed” results. You can re-run those URLs in a smaller batch later.
+</Note>
+
+---
+
+## Export job as CSV
+
+```http
+GET /indexing/jobs/{job_id}/export?api_key=gm_your_api_key_here
+```
+
+Returns a `text/csv` file with columns:
+
+- `url`
+- `status`
+- `is_indexed`
+- `reason`
+- `google_status`
+- `created_at`
+- `updated_at`
+
+You can trigger this from the Dashboard or call the endpoint directly to download the CSV into your own tooling.
+

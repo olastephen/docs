@@ -319,11 +319,6 @@
                     "default": true,
                     "description": "Whether to include a base64 screenshot of the hero area"
                   },
-                  "tool_slug": {
-                    "type": "string",
-                    "default": "seo_audit",
-                    "description": "Tool identifier used by the credit system"
-                  },
                   "source": {
                     "type": "string",
                     "enum": ["web", "api", "extension", "wordpress", "shopify", "batch", "tts"],

@@ -32,7 +32,6 @@ Content-Type: application/json
   "api_key": "your_api_key_here",
   "url": "https://www.example.co.uk",
   "include_screenshot": true,
-  "tool_slug": "seo_audit",
   "source": "web"
 }
 ```
@@ -40,7 +39,6 @@ Content-Type: application/json
 - **api_key** (required) – Your GistMag API key. You can create and manage keys in the [dashboard](https://gistmag.co.uk/dashboard/api-key).
 - **url** (required) – The page URL to audit. Must be publicly accessible.
 - **include_screenshot** (optional, default: `true`) – Include a base64 snapshot of the hero/above-the-fold area.
-- **tool_slug** (optional, default: `"seo_audit"`) – Tool identifier used by the credit system.
 - **source** (optional, default: `"web"`) – One of:
   - `web`
   - `api`
@@ -61,7 +59,6 @@ curl -X POST https://api.gistmag.co.uk/seo/audit \
     "api_key": "your_api_key_here",
     "url": "https://www.example.co.uk",
     "include_screenshot": true,
-    "tool_slug": "seo_audit",
     "source": "web"
   }'
 ```

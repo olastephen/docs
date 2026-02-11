@@ -9,7 +9,7 @@ api: "POST /indexing/jobs"
 The **Indexing** APIs let you:
 
 - **Index Check**: Check whether URLs are currently indexed in Google Search (via a dedicated Apify actor).
-- **Index Submit**: Submit URLs to Google's Indexing API for faster discovery and re-crawling.
+- **Index Submit** *(coming soon)*: Submit URLs for faster Googlebot crawling and indexing.
 
 Each URL consumes **1 credit** whether you are checking or submitting.
 
@@ -48,9 +48,9 @@ Content-Type: application/json
 ```
 
 - **api_key** (string, required): Your GistMag API key.
-- **type** (string, required): `"check"` or `"submit"`.
+- **type** (string, required): Currently only `"check"` is available.
   - `"check"` – checks whether each URL appears in Google Search results.
-  - `"submit"` – submits each URL to Google's Indexing API to request faster crawling/indexing.
+  - `"submit"` – *(coming soon)* submits URLs for faster Googlebot crawling and indexing.
 - **urls** (string[], required): List of full URLs. 1–10,000 items per job.
 - **source** (string, optional): Source identifier (`"web"`, `"api"`, `"extension"`, `"wordpress"`, `"shopify"`, `"batch"`, `"tts"`). Defaults to `"web"` when omitted.
 
@@ -160,52 +160,6 @@ GET /indexing/jobs/{job_id}/urls?api_key=gm_your_api_key_here&limit=100&offset=0
 <Note>
   In the GistMag dashboard, URLs with <code>reason = "rate_limited"</code> are shown as **Rate limited** so
   you can distinguish them from true "not indexed" results. You can re-run those URLs in a smaller batch later.
-</Note>
-
-### Response (Index Submit jobs)
-
-```json
-[
-  {
-    "id": "a1b2c3d4-5678-4f7c-8080-dd09c67a22bb",
-    "url": "https://www.example.co.uk/",
-    "status": "done",
-    "is_indexed": null,
-    "google_status": "URL_UPDATED",
-    "google_raw_response": {
-      "urlNotificationMetadata": {
-        "url": "https://www.example.co.uk/",
-        "latestUpdate": {
-          "url": "https://www.example.co.uk/",
-          "type": "URL_UPDATED",
-          "notifyTime": "2026-02-11T21:30:00.000Z"
-        }
-      }
-    },
-    "created_at": "2026-02-11T21:29:00.000Z",
-    "updated_at": "2026-02-11T21:30:05.000Z"
-  },
-  {
-    "id": "e5f6g7h8-9012-4abc-def0-ee10d78b33cc",
-    "url": "https://www.example.co.uk/about",
-    "status": "failed",
-    "is_indexed": null,
-    "google_status": "Permission denied. Failed to verify the URL ownership.",
-    "created_at": "2026-02-11T21:29:00.000Z",
-    "updated_at": "2026-02-11T21:30:06.000Z"
-  }
-]
-```
-
-- **google_status**:
-  - `"URL_UPDATED"` – Google accepted the submission. The URL will be re-crawled soon.
-  - Any other value – an error message from Google (e.g. permission denied, quota exceeded).
-- **google_raw_response** – The full response body from Google's Indexing API for debugging.
-
-<Note>
-  To use **Index Submit**, your site must be verified in [Google Search Console](https://search.google.com/search-console)
-  and the GistMag service account must be added as a **delegated owner** in your Search Console property settings.
-  See [Google's Indexing API prerequisites](https://developers.google.com/search/apis/indexing-api/v3/prereqs) for details.
 </Note>
 
 ---

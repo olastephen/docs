@@ -1,0 +1,170 @@
+---
+title: "Site Audit"
+description: "Run a site audit with performance, accessibility, best practices, and SEO scores."
+---
+
+## Overview
+
+The **Site Audit** endpoint lets you check how healthy a page is across:
+
+- **Performance**
+- **Accessibility**
+- **Best practices**
+- **SEO**
+
+Each audit returns an overall score from **0–100**, individual category scores, detailed on-page metrics, approximate performance timings, and an optional snapshot of the page hero.
+
+<Note>
+  Each audit uses **1 credit** from your balance.
+</Note>
+
+## Endpoint
+
+```http
+POST https://api.gistmag.co.uk/seo/audit
+Content-Type: application/json
+```
+
+## Request Body
+
+```json
+{
+  "api_key": "your_api_key_here",
+  "url": "https://www.example.co.uk",
+  "include_screenshot": true,
+  "tool_slug": "seo_audit",
+  "source": "web"
+}
+```
+
+- **api_key** (required) – Your GistMag API key. You can create and manage keys in the [dashboard](https://gistmag.co.uk/dashboard/api-key).
+- **url** (required) – The page URL to audit. Must be publicly accessible.
+- **include_screenshot** (optional, default: `true`) – Include a base64 snapshot of the hero/above-the-fold area.
+- **tool_slug** (optional, default: `"seo_audit"`) – Tool identifier used by the credit system.
+- **source** (optional, default: `"web"`) – One of:
+  - `web`
+  - `api`
+  - `extension`
+  - `wordpress`
+  - `shopify`
+  - `batch`
+  - `tts`
+
+If an invalid value is provided for `source`, it is normalised to `web`.
+
+## Example Request
+
+```bash
+curl -X POST https://api.gistmag.co.uk/seo/audit \
+  -H "Content-Type: application/json" \
+  -d '{
+    "api_key": "your_api_key_here",
+    "url": "https://www.example.co.uk",
+    "include_screenshot": true,
+    "tool_slug": "seo_audit",
+    "source": "web"
+  }'
+```
+
+## Response
+
+```json
+{
+  "audit_id": "0c3a2a4d-1234-4b9e-8f3b-abc123def456",
+  "url": "https://www.example.co.uk/",
+  "requested_url": "https://www.example.co.uk",
+  "overall_score": 82,
+  "categories": {
+    "performance": {
+      "score": 78,
+      "issues": [
+        "Slow page load time (~2300 ms)."
+      ]
+    },
+    "accessibility": {
+      "score": 90,
+      "issues": [
+        "1 images are missing alt text."
+      ]
+    },
+    "best_practices": {
+      "score": 80,
+      "issues": [
+        "No canonical URL found; consider adding a canonical tag."
+      ]
+    },
+    "seo": {
+      "score": 85,
+      "issues": [
+        "Missing meta description"
+      ]
+    }
+  },
+  "issues": [
+    "[performance] Slow page load time (~2300 ms).",
+    "[accessibility] 1 images are missing alt text.",
+    "[best_practices] No canonical URL found; consider adding a canonical tag.",
+    "[seo] Missing meta description"
+  ],
+  "metrics": {
+    "title": {
+      "value": "Example",
+      "length": 7,
+      "status": "ok"
+    },
+    "meta_description": {
+      "value": "",
+      "length": 0,
+      "status": "missing"
+    },
+    "canonical": "https://www.example.co.uk/",
+    "robots": "",
+    "h1_count": 1,
+    "h2_count": 3,
+    "word_count": 950,
+    "internal_links": 15,
+    "external_links": 4,
+    "broken_links": 0,
+    "images_without_alt": 1,
+    "indexable": true,
+    "follow_links": true
+  },
+  "performance": {
+    "load_time_ms": 2300,
+    "dom_content_loaded_ms": 1800,
+    "time_to_first_byte_ms": 420
+  },
+  "screenshot_base64": "iVBORw0KGgoAAAANSUhEUgAA..."
+}
+```
+
+### Fields
+
+- **audit_id** – Unique identifier for the audit.
+- **url** – Final URL after redirects.
+- **requested_url** – URL as originally requested.
+- **overall_score** – Average of the four category scores.
+- **categories** – Object containing category-level scores and issues:
+  - `performance`
+  - `accessibility`
+  - `best_practices`
+  - `seo`
+- **issues** – Flattened list of issues with category prefixes for quick scanning.
+- **metrics** – Structured on-page metrics (titles, descriptions, headings, links, word count, indexability, etc.).
+- **performance** – Approximate timings:
+  - `load_time_ms`
+  - `dom_content_loaded_ms`
+  - `time_to_first_byte_ms`
+- **screenshot_base64** – Optional PNG screenshot of the hero/above-the-fold area, base64-encoded. Omitted when `include_screenshot` is `false`.
+
+## Errors
+
+Common error responses include:
+
+- `400` – Missing or invalid `url`.
+- `401` – Invalid `api_key`.
+- `402` – Not enough credits (returned from the credit system).
+- `502` – Upstream fetch failed for the target URL.
+
+Error bodies follow the standard error shape described in the API overview.
+

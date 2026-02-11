@@ -78,6 +78,12 @@
             ]
           },
           {
+            "group": "Site Audit",
+            "pages": [
+              "api-reference/site-audit"
+            ]
+          },
+          {
             "group": "Management",
             "pages": [
               "api-reference/management/usage",

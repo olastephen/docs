@@ -1,8 +1,8 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "GistMag API",
-    "description": "AI-powered alt text generation and text-to-speech API",
+  "title": "GistMag API",
+  "description": "AI-powered API for alt text, speech, blog metadata and site audits.",
     "license": {
       "name": "MIT"
     },

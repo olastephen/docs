@@ -292,6 +292,82 @@
           }
         }
       }
+    },
+    "/seo/audit": {
+      "post": {
+        "summary": "Run Site Audit",
+        "description": "Run a site audit for a given URL with scores for performance, accessibility, best practices, and SEO.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["api_key", "url"],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "Your GistMag API key"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "The page URL to audit"
+                  },
+                  "include_screenshot": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to include a base64 screenshot of the hero area"
+                  },
+                  "tool_slug": {
+                    "type": "string",
+                    "default": "seo_audit",
+                    "description": "Tool identifier used by the credit system"
+                  },
+                  "source": {
+                    "type": "string",
+                    "enum": ["web", "api", "extension", "wordpress", "shopify", "batch", "tts"],
+                    "default": "web",
+                    "description": "Source identifier for tracking usage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteAuditResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -422,6 +498,112 @@
           "failed": {
             "type": "integer",
             "description": "Number of images that failed to process"
+          }
+        }
+      },
+      "SiteAuditResponse": {
+        "type": "object",
+        "properties": {
+          "audit_id": {
+            "type": "string",
+            "description": "Unique ID for this audit run"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Final URL after redirects"
+          },
+          "requested_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL as originally requested"
+          },
+          "overall_score": {
+            "type": "integer",
+            "description": "Overall score from 0 to 100"
+          },
+          "categories": {
+            "type": "object",
+            "description": "Category-level scores and issues",
+            "properties": {
+              "performance": {
+                "$ref": "#/components/schemas/SiteAuditCategory"
+              },
+              "accessibility": {
+                "$ref": "#/components/schemas/SiteAuditCategory"
+              },
+              "best_practices": {
+                "$ref": "#/components/schemas/SiteAuditCategory"
+              },
+              "seo": {
+                "$ref": "#/components/schemas/SiteAuditCategory"
+              }
+            }
+          },
+          "issues": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Flattened list of issues with category prefixes"
+          },
+          "highlights": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "High-level positives across categories"
+          },
+          "recommendations": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Short next-step recommendations based on the score"
+          },
+          "metrics": {
+            "type": "object",
+            "description": "On-page metrics such as title, meta description, headings, links, word count, indexability, etc."
+          },
+          "performance": {
+            "type": "object",
+            "properties": {
+              "load_time_ms": {
+                "type": "integer",
+                "nullable": true
+              },
+              "dom_content_loaded_ms": {
+                "type": "integer",
+                "nullable": true
+              },
+              "time_to_first_byte_ms": {
+                "type": "integer",
+                "nullable": true
+              }
+            }
+          },
+          "screenshot_base64": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional base64 hero screenshot (PNG) when include_screenshot is true"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO timestamp when the audit was created"
+          }
+        }
+      },
+      "SiteAuditCategory": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "integer",
+            "description": "Category score from 0 to 100"
+          },
+          "issues": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Issues impacting this category"
+          },
+          "positives": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Strengths detected for this category"
           }
         }
       },

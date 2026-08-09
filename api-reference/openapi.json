@@ -1,8 +1,8 @@
 {
   "openapi": "3.1.0",
   "info": {
-  "title": "GistMag API",
-  "description": "AI-powered API for alt text, speech, blog metadata and site audits.",
+    "title": "GistMag API",
+    "description": "AI-powered API for alt text, speech, blog metadata and site audits.",
     "license": {
       "name": "MIT"
     },
@@ -233,7 +233,9 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["api_key"],
+                "required": [
+                  "api_key"
+                ],
                 "properties": {
                   "api_key": {
                     "type": "string",
@@ -268,7 +270,9 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["api_key"],
+                "required": [
+                  "api_key"
+                ],
                 "properties": {
                   "api_key": {
                     "type": "string",
@@ -303,7 +307,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["api_key", "url"],
+                "required": [
+                  "api_key",
+                  "url"
+                ],
                 "properties": {
                   "api_key": {
                     "type": "string",
@@ -321,7 +328,15 @@
                   },
                   "source": {
                     "type": "string",
-                    "enum": ["web", "api", "extension", "wordpress", "shopify", "batch", "tts"],
+                    "enum": [
+                      "web",
+                      "api",
+                      "extension",
+                      "wordpress",
+                      "shopify",
+                      "batch",
+                      "tts"
+                    ],
                     "default": "web",
                     "description": "Source identifier for tracking usage"
                   }
@@ -385,12 +400,72 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["job_id", "type", "total_urls", "status"],
+                  "required": [
+                    "job_id",
+                    "type",
+                    "total_urls",
+                    "status"
+                  ],
                   "properties": {
-                    "job_id": { "type": "string", "description": "ID of the created job" },
-                    "type": { "type": "string", "enum": ["check", "submit"] },
-                    "total_urls": { "type": "integer" },
-                    "status": { "type": "string" }
+                    "job_id": {
+                      "type": "string",
+                      "description": "ID of the created job"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "check",
+                        "submit"
+                      ]
+                    },
+                    "total_urls": {
+                      "type": "integer"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "submitted_count": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "submit jobs only: URLs accepted by IndexNow"
+                    },
+                    "failed_count": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "submit jobs only: URLs IndexNow rejected"
+                    },
+                    "engines": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "submit jobs only: engines notified"
+                    },
+                    "results": {
+                      "type": "array",
+                      "description": "submit jobs only: one entry per domain in the job",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "host": {
+                            "type": "string"
+                          },
+                          "urls": {
+                            "type": "integer"
+                          },
+                          "ok": {
+                            "type": "boolean"
+                          },
+                          "status_code": {
+                            "type": "integer",
+                            "nullable": true
+                          },
+                          "message": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -400,7 +475,9 @@
             "description": "Bad Request",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error" }
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
             }
           },
@@ -408,7 +485,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error" }
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
             }
           }
@@ -422,28 +501,43 @@
             "name": "api_key",
             "in": "query",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "Your GistMag API key"
           },
           {
             "name": "type",
             "in": "query",
             "required": false,
-            "schema": { "type": "string", "enum": ["check", "submit"] },
+            "schema": {
+              "type": "string",
+              "enum": [
+                "check",
+                "submit"
+              ]
+            },
             "description": "Filter by job type"
           },
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": { "type": "integer", "minimum": 1, "maximum": 100 },
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
             "description": "Number of jobs to return (default 20)"
           },
           {
             "name": "offset",
             "in": "query",
             "required": false,
-            "schema": { "type": "integer", "minimum": 0 },
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
             "description": "Offset for pagination (default 0)"
           }
         ],
@@ -454,7 +548,9 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": { "$ref": "#/components/schemas/IndexJob" }
+                  "items": {
+                    "$ref": "#/components/schemas/IndexJob"
+                  }
                 }
               }
             }
@@ -463,7 +559,9 @@
             "description": "Bad Request",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error" }
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
             }
           },
@@ -471,7 +569,9 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error" }
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
             }
           }
@@ -487,14 +587,18 @@
             "name": "job_id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "ID of the indexing job"
           },
           {
             "name": "api_key",
             "in": "query",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "Your GistMag API key"
           }
         ],
@@ -503,7 +607,9 @@
             "description": "Job details",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/IndexJob" }
+                "schema": {
+                  "$ref": "#/components/schemas/IndexJob"
+                }
               }
             }
           },
@@ -511,7 +617,9 @@
             "description": "Job not found",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error" }
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
             }
           }
@@ -527,14 +635,18 @@
             "name": "job_id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "ID of the indexing job"
           },
           {
             "name": "api_key",
             "in": "query",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "Your GistMag API key"
           },
           {
@@ -543,7 +655,12 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["pending", "processing", "done", "failed"]
+              "enum": [
+                "pending",
+                "processing",
+                "done",
+                "failed"
+              ]
             },
             "description": "Filter by URL status"
           },
@@ -551,14 +668,21 @@
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": { "type": "integer", "minimum": 1, "maximum": 1000 },
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            },
             "description": "Number of rows to return (default 100)"
           },
           {
             "name": "offset",
             "in": "query",
             "required": false,
-            "schema": { "type": "integer", "minimum": 0 },
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
             "description": "Offset for pagination (default 0)"
           }
         ],
@@ -569,7 +693,9 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": { "$ref": "#/components/schemas/IndexJobUrl" }
+                  "items": {
+                    "$ref": "#/components/schemas/IndexJobUrl"
+                  }
                 }
               }
             }
@@ -578,7 +704,9 @@
             "description": "Job not found",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error" }
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
             }
           }
@@ -594,14 +722,18 @@
             "name": "job_id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "ID of the indexing job"
           },
           {
             "name": "api_key",
             "in": "query",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "Your GistMag API key"
           }
         ],
@@ -619,13 +751,316 @@
           }
         }
       }
+    },
+    "/indexing/indexnow/keys": {
+      "post": {
+        "summary": "Register a domain for Index Submit",
+        "description": "Generate an IndexNow key for a domain and return the key file to upload. The domain is not usable until it is verified.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "api_key",
+                  "domain"
+                ],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "Your GistMag API key"
+                  },
+                  "domain": {
+                    "type": "string",
+                    "description": "Domain to register, e.g. example.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Key created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "host": {
+                      "type": "string"
+                    },
+                    "key": {
+                      "type": "string"
+                    },
+                    "key_location": {
+                      "type": "string",
+                      "description": "Where the key file must be uploaded"
+                    },
+                    "verified": {
+                      "type": "boolean"
+                    },
+                    "instructions": {
+                      "type": "object",
+                      "properties": {
+                        "filename": {
+                          "type": "string"
+                        },
+                        "file_contents": {
+                          "type": "string"
+                        },
+                        "upload_to": {
+                          "type": "string"
+                        },
+                        "next_step": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "engines": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Invalid domain"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "summary": "List registered domains",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Registered domains",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "host": {
+                            "type": "string"
+                          },
+                          "key": {
+                            "type": "string"
+                          },
+                          "key_location": {
+                            "type": "string"
+                          },
+                          "verified": {
+                            "type": "boolean"
+                          },
+                          "verified_at": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "last_error": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        }
+                      }
+                    },
+                    "engines": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/indexing/indexnow/keys/verify": {
+      "post": {
+        "summary": "Verify a domain's key file",
+        "description": "Fetch the key file from the domain's site root and confirm it matches. Only verified domains can be submitted.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "api_key",
+                  "domain"
+                ],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "Your GistMag API key"
+                  },
+                  "domain": {
+                    "type": "string",
+                    "description": "Domain to register, e.g. example.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verified",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "host": {
+                      "type": "string"
+                    },
+                    "verified": {
+                      "type": "boolean"
+                    },
+                    "key_location": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Key file missing, unreachable, or does not match"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "No key registered for this domain"
+          }
+        }
+      }
+    },
+    "/indexing/indexnow/keys/{key_id}": {
+      "delete": {
+        "summary": "Remove a registered domain",
+        "parameters": [
+          {
+            "name": "key_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api_key",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deleted": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
       "GenerateRequest": {
         "type": "object",
-        "required": ["image_url", "api_key"],
+        "required": [
+          "image_url",
+          "api_key"
+        ],
         "properties": {
           "image_url": {
             "type": "string",
@@ -638,7 +1073,11 @@
           },
           "mode": {
             "type": "string",
-            "enum": ["short", "long", "seo"],
+            "enum": [
+              "short",
+              "long",
+              "seo"
+            ],
             "default": "short",
             "description": "The length of alt text to generate"
           },
@@ -649,7 +1088,14 @@
           },
           "source": {
             "type": "string",
-            "enum": ["web", "api", "extension", "wordpress", "shopify", "batch"],
+            "enum": [
+              "web",
+              "api",
+              "extension",
+              "wordpress",
+              "shopify",
+              "batch"
+            ],
             "default": "api",
             "description": "Source identifier for tracking"
           }
@@ -657,7 +1103,10 @@
       },
       "BatchRequest": {
         "type": "object",
-        "required": ["images", "api_key"],
+        "required": [
+          "images",
+          "api_key"
+        ],
         "properties": {
           "images": {
             "type": "array",
@@ -665,7 +1114,9 @@
             "maxItems": 500,
             "items": {
               "type": "object",
-              "required": ["image_url"],
+              "required": [
+                "image_url"
+              ],
               "properties": {
                 "image_url": {
                   "type": "string",
@@ -674,7 +1125,11 @@
                 },
                 "mode": {
                   "type": "string",
-                  "enum": ["short", "long", "seo"],
+                  "enum": [
+                    "short",
+                    "long",
+                    "seo"
+                  ],
                   "default": "short",
                   "description": "The length of alt text for this specific image"
                 },
@@ -685,7 +1140,14 @@
                 },
                 "source": {
                   "type": "string",
-                  "enum": ["web", "api", "extension", "wordpress", "shopify", "batch"],
+                  "enum": [
+                    "web",
+                    "api",
+                    "extension",
+                    "wordpress",
+                    "shopify",
+                    "batch"
+                  ],
                   "description": "Source identifier for tracking"
                 }
               }
@@ -793,17 +1255,23 @@
           },
           "issues": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "description": "Flattened list of issues with category prefixes"
           },
           "highlights": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "description": "High-level positives across categories"
           },
           "recommendations": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "description": "Short next-step recommendations based on the score"
           },
           "metrics": {
@@ -848,12 +1316,16 @@
           },
           "issues": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "description": "Issues impacting this category"
           },
           "positives": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "description": "Strengths detected for this category"
           }
         }
@@ -910,7 +1382,11 @@
       },
       "IndexingCreateJobRequest": {
         "type": "object",
-        "required": ["api_key", "type", "urls"],
+        "required": [
+          "api_key",
+          "type",
+          "urls"
+        ],
         "properties": {
           "api_key": {
             "type": "string",
@@ -918,19 +1394,32 @@
           },
           "type": {
             "type": "string",
-            "enum": ["check", "submit"],
-            "description": "Job type: 'check' (use Apify index checker) or 'submit' (use Google Indexing API)"
+            "enum": [
+              "check",
+              "submit"
+            ],
+            "description": "Job type: 'check' (Google Search coverage, via the Apify index checker) or 'submit' (notify Bing, Yandex, Seznam and Naver via IndexNow)"
           },
           "urls": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+              "type": "string"
+            },
             "minItems": 1,
             "maxItems": 10000,
-            "description": "List of URLs to check or submit"
+            "description": "List of URLs to check or submit. For 'submit', the 10,000 limit applies per domain and every domain must be verified first."
           },
           "source": {
             "type": "string",
-            "enum": ["web", "api", "extension", "wordpress", "shopify", "batch", "tts"],
+            "enum": [
+              "web",
+              "api",
+              "extension",
+              "wordpress",
+              "shopify",
+              "batch",
+              "tts"
+            ],
             "description": "Optional source identifier for tracking usage"
           }
         }
@@ -938,10 +1427,23 @@
       "IndexJob": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "description": "Job ID" },
-          "type": { "type": "string", "enum": ["check", "submit"] },
-          "total_urls": { "type": "integer" },
-          "processed_urls": { "type": "integer" },
+          "id": {
+            "type": "string",
+            "description": "Job ID"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "check",
+              "submit"
+            ]
+          },
+          "total_urls": {
+            "type": "integer"
+          },
+          "processed_urls": {
+            "type": "integer"
+          },
           "indexed_count": {
             "type": "integer",
             "nullable": true,
@@ -954,7 +1456,12 @@
           },
           "status": {
             "type": "string",
-            "enum": ["pending", "running", "complete", "failed"]
+            "enum": [
+              "pending",
+              "running",
+              "complete",
+              "failed"
+            ]
           },
           "error_message": {
             "type": "string",
@@ -969,11 +1476,21 @@
       "IndexJobUrl": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "url": { "type": "string", "description": "URL that was checked or submitted" },
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL that was checked or submitted"
+          },
           "status": {
             "type": "string",
-            "enum": ["pending", "processing", "done", "failed"]
+            "enum": [
+              "pending",
+              "processing",
+              "done",
+              "failed"
+            ]
           },
           "is_indexed": {
             "type": "boolean",
@@ -1012,7 +1529,10 @@
       },
       "Error": {
         "type": "object",
-        "required": ["error", "message"],
+        "required": [
+          "error",
+          "message"
+        ],
         "properties": {
           "error": {
             "type": "string",

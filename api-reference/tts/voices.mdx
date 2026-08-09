@@ -1,12 +1,14 @@
 ---
 title: "List TTS Voices"
-description: "List available Google Cloud Text-to-Speech voices"
+description: "List available Text-to-Speech voices across both engines"
 api: "GET /tts/voices"
 ---
 
 ## Overview
 
-Retrieve the list of available Text-to-Speech voices provided by Google Cloud, so you can pick a specific `voice_name` when calling the [`/tts`](/api-reference/tts/basic) endpoint.
+Retrieve the list of available Text-to-Speech voices across both engines, so you can pick a specific `voice_name` when calling the [`/tts`](/api-reference/tts/basic) endpoint.
+
+Each entry carries a `provider` field — `"kitten"` for the local English engine (listed first for English) or `"google"` for Google Cloud TTS.
 
 <Endpoint method="get" url="/tts/voices" />
 
@@ -41,7 +43,7 @@ curl -X GET "https://api.gistmag.co.uk/tts/voices?language=en"
 </ResponseField>
 
 <ResponseField name="voices[].ssml_gender" type="string">
-  Voice gender as defined by Google Cloud (`MALE`, `FEMALE`, `NEUTRAL`)
+  Voice gender (`MALE`, `FEMALE`, `NEUTRAL`)
 </ResponseField>
 
 <ResponseField name="voices[].natural_sample_rate_hertz" type="number">

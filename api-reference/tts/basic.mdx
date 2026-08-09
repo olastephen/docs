@@ -21,7 +21,7 @@ Generate high-quality speech from text using the default voice. This is the simp
 </ParamField>
 
 <ParamField body="voice_name" type="string" optional>
-  Optional Google Cloud voice name (e.g., `en-US-Wavenet-D`). Use [`GET /tts/voices`](/api-reference/tts/voices) to discover available voices.
+  Optional voice name — either a KittenTTS voice (`Bella`, `Jasper`, `Luna`, `Bruno`, `Rosie`, `Hugo`, `Kiki`, `Leo`) or a Google Cloud voice (e.g. `en-US-Wavenet-D`). The name selects the engine. Use [`GET /tts/voices`](/api-reference/tts/voices) to discover available voices.
 </ParamField>
 
 <ParamField body="speed" type="number" default="1.0">

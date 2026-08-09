@@ -1,6 +1,6 @@
 ---
 title: "Indexing"
-description: "Check if URLs are indexed in Google and submit them for faster indexing."
+description: "Check if URLs are indexed in Google, and notify search engines the moment you publish."
 api: "POST /indexing/jobs"
 ---
 
@@ -9,9 +9,59 @@ api: "POST /indexing/jobs"
 The **Indexing** APIs let you:
 
 - **Index Check**: Check whether URLs are currently indexed in Google Search (via a dedicated Apify actor).
-- **Index Submit** *(coming soon)*: Submit URLs for faster Googlebot crawling and indexing.
+- **Index Submit**: Notify **Bing, Yandex, Seznam and Naver** about new or updated URLs using the [IndexNow](https://www.indexnow.org) protocol.
 
 Each URL consumes **1 credit** whether you are checking or submitting.
+
+<Note>
+**Index Submit does not notify Google.** Google has never participated in
+IndexNow, and its own Indexing API officially covers only `JobPosting` and
+`BroadcastEvent` structured data — not general web pages. Use **Index Check** to
+monitor Google coverage, and **Index Submit** for the four IndexNow engines.
+</Note>
+
+## Setting up Index Submit
+
+IndexNow has no accounts or OAuth. You prove you own a domain by hosting a key
+file at its root, and each submission quotes that key. This is a one-time setup
+per domain.
+
+<Steps>
+  <Step title="Register the domain">
+    ```http
+    POST /indexing/indexnow/keys
+    ```
+    ```json
+    { "api_key": "gm_your_api_key_here", "domain": "example.com" }
+    ```
+    The response contains a generated `key` and the exact `key_location` to
+    upload it to.
+  </Step>
+  <Step title="Upload the key file">
+    Create a file named `<key>.txt` containing exactly `<key>` and upload it to
+    your site root, so it is reachable at `https://example.com/<key>.txt`.
+  </Step>
+  <Step title="Verify">
+    ```http
+    POST /indexing/indexnow/keys/verify
+    ```
+    ```json
+    { "api_key": "gm_your_api_key_here", "domain": "example.com" }
+    ```
+    We fetch the file and confirm it matches. Only verified domains can be
+    submitted.
+  </Step>
+</Steps>
+
+Re-registering a domain rotates its key and clears verification, so upload the
+new file before submitting again. `GET /indexing/indexnow/keys` lists your
+domains and their verification state; `DELETE /indexing/indexnow/keys/{id}`
+removes one.
+
+<Warning>
+The key file must be hosted on the domain it authorizes. A `key_location`
+pointing at a different host is rejected.
+</Warning>
 
 All endpoints live under the main API base URL:
 
@@ -48,13 +98,15 @@ Content-Type: application/json
 ```
 
 - **api_key** (string, required): Your GistMag API key.
-- **type** (string, required): Currently only `"check"` is available.
+- **type** (string, required): `"check"` or `"submit"`.
   - `"check"` – checks whether each URL appears in Google Search results.
-  - `"submit"` – *(coming soon)* submits URLs for faster Googlebot crawling and indexing.
-- **urls** (string[], required): List of full URLs. 1–10,000 items per job.
+  - `"submit"` – notifies Bing, Yandex, Seznam and Naver via IndexNow.
+- **urls** (string[], required): List of full URLs. 1–10,000 items per job. For `"submit"`, the 10,000 limit applies **per domain**, and every domain must be verified first.
 - **source** (string, optional): Source identifier (`"web"`, `"api"`, `"extension"`, `"wordpress"`, `"shopify"`, `"batch"`, `"tts"`). Defaults to `"web"` when omitted.
 
-### Response
+### Response — `check`
+
+Index Check runs in the background. Use the `job_id` to poll for results.
 
 ```json
 {
@@ -65,7 +117,46 @@ Content-Type: application/json
 }
 ```
 
-Use the `job_id` to fetch job status and per-URL results.
+### Response — `submit`
+
+IndexNow is fast and synchronous, so a submit job finishes inside the request
+and returns its results immediately:
+
+```json
+{
+  "job_id": "9c1f2a80-11bd-4f0e-9a7c-def456ab7890",
+  "type": "submit",
+  "total_urls": 2,
+  "status": "complete",
+  "submitted_count": 2,
+  "failed_count": 0,
+  "engines": ["Bing", "Yandex", "Seznam", "Naver"],
+  "results": [
+    {
+      "host": "example.com",
+      "urls": 2,
+      "ok": true,
+      "status_code": 200,
+      "message": "URLs submitted successfully"
+    }
+  ]
+}
+```
+
+A job spanning several domains is split into one IndexNow request per domain,
+each listed separately in `results`. If some domains succeed and others fail the
+job is still `complete` — check `failed_count` and the per-host `message`.
+
+Submitting a URL on an unverified domain returns `400` with the offending hosts,
+**before any credits are charged**:
+
+```json
+{
+  "error": "These domains are not verified for Index Submit",
+  "unverified_hosts": ["example.com"],
+  "details": "Register each domain via POST /indexing/indexnow/keys, upload the key file to its site root, then verify it."
+}
+```
 
 ---
 

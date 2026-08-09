@@ -5,7 +5,7 @@ description: "Introduction to the Text-to-Speech API"
 
 ## Overview
 
-The GistMag Text-to-Speech API converts text into natural-sounding speech using **Google Cloud Text-to-Speech**. It also provides Speech-to-Text transcription using **OpenAI Whisper API**. The API supports multiple languages, multiple voices, streaming, background music, and high-quality audio transcription.
+The GistMag Text-to-Speech API converts text into natural-sounding speech using **KittenTTS** (local, English) and **Google Cloud Text-to-Speech** (all other languages). It also provides Speech-to-Text transcription using the **OpenAI Whisper API**. The API supports multiple languages, multiple voices, streaming, background music, and high-quality audio transcription.
 
 ## Features
 
@@ -64,7 +64,7 @@ The GistMag Text-to-Speech API converts text into natural-sounding speech using 
     icon="user"
     href="/api-reference/tts/voices"
   >
-    Browse and select from Google Cloud voices
+    Browse and select from KittenTTS and Google Cloud voices
   </Card>
   <Card
     title="Languages"
@@ -98,12 +98,34 @@ The TTS API supports multiple languages, including:
 ## Engines
 
 ### Text-to-Speech
-The API uses **Google Cloud Text-to-Speech** for TTS, which provides:
 
-- High-quality, natural-sounding speech
-- Multiple neural voices per language
-- Control over speaking rate, pitch, and volume
-- Fast, scalable generation with Google Cloud infrastructure
+TTS runs on two engines, and requests are routed automatically — you never have
+to pick one:
+
+| | **KittenTTS** | **Google Cloud TTS** |
+|---|---|---|
+| Languages | English only | All supported languages |
+| Voices | Bella, Jasper, Luna, Bruno, Rosie, Hugo, Kiki, Leo | Full Google catalog |
+| Output | 24 kHz WAV | 22.05 kHz WAV |
+| `speed` | ✅ | ✅ |
+| `pitch` / `volume_gain_db` | ✗ | ✅ |
+
+**How routing works:**
+
+1. Naming a voice selects its engine — the eight names above run on KittenTTS, anything else is a Google voice.
+2. With no voice named, English uses KittenTTS and other languages use Google.
+3. Setting `pitch` or `volume_gain_db` routes to Google, since KittenTTS has no equivalent.
+
+You can override this with the optional **`provider`** field (`"kitten"` or
+`"google"`) on `/tts`, `/tts/stream`, `/tts/batch` and `/tts/with-music`.
+
+<Note>
+Selecting a KittenTTS voice while also setting `pitch` or `volume_gain_db` will
+ignore those two parameters — the named voice takes priority. Omit the voice
+name to have the request routed to Google instead.
+</Note>
+
+`GET /tts/providers` reports which engines are currently available.
 
 ### Speech-to-Text
 The API uses **OpenAI Whisper API** for STT, which provides:
